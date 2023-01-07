@@ -1,5 +1,3 @@
-import { supabase } from "../supabase/config"
-
 import { Fetcher} from 'swr'
 
 // export const fetcher = (...args:any) => {
