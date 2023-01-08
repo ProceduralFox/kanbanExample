@@ -21,7 +21,7 @@ const Home = () => {
         />
       ) : (
         <div>
-          home page
+          Please select a board from the menu.
         </div>
       )}
     </div>

@@ -6,8 +6,6 @@ import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 type Data = any
 
 
-
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
