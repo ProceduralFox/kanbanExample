@@ -2,8 +2,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 // import { supabase } from '../../../supabase/config'
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
+import { Database } from '../../../types/supabase'
+import { PostgrestError } from '@supabase/supabase-js';
 
-type Data = any
+type Data = Database["public"]["Tables"]["boards"]["Row"][] | null | PostgrestError
 
 
 export default async function handler(
@@ -11,8 +13,8 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
 
-  const supabase = createServerSupabaseClient({ req, res })
-
+  const supabase = createServerSupabaseClient<Database>({ req, res })
+  
   let { data: example, error } = await supabase
   .from('boards')
   .select('*')
@@ -21,14 +23,3 @@ export default async function handler(
   res.status(200).json(example)
 }
 
-// const getBoards = async () => {
-
-//   let { data: example, error } = await supabase
-//   .from('example')
-//   .select('id')
-
-
-//   console.log(boards, error)
-
-//   return boards
-// }

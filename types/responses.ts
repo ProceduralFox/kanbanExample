@@ -1,0 +1,1 @@
+export type Boards = {id:string, name:string, owner:string}[]

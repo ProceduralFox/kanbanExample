@@ -1,12 +1,12 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { columnAddSchema } from '../../../schemas/column_add'
+import { Database } from '../../../../types/supabase'
 import z from 'zod'
-import { Database } from '../../../types/supabase'
+import { subtaskCompleteSchema } from '../../../../schemas/subtask_complete'
+
 
 type Data = any
-
 
 export default async function handler(
   req: NextApiRequest,
@@ -16,19 +16,19 @@ export default async function handler(
   try {
     const supabase = createServerSupabaseClient<Database>({ req, res })
 
-    columnAddSchema.parse(req.body)
-
-    const body: z.infer<typeof columnAddSchema>  = req.body
-
+    subtaskCompleteSchema.parse(req.body)
+  
+    const body: z.infer<typeof subtaskCompleteSchema> = req.body
+  
     const { data, error } = await supabase
-    .from('board_columns')
-    .insert([
-      { ...body },
-    ])
+    .from('subtasks')
+    .update(body)
+    .eq('id', req.query.subtask_id)
   
     if(error) res.status(400).json(error)
     res.status(200).json(data)
   } catch (error) {
     res.status(400).json(error)
   }
+
 }

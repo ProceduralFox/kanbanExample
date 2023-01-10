@@ -21,7 +21,7 @@ export const fetcher = (url: string) => {
   //   options.body = JSON.stringify(data)
   // }
 
-  return fetch(url,).then((res) => {
+  return fetch(url).then((res) => {
     if (!res.ok) {
       // global error handling
     }

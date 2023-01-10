@@ -3,12 +3,13 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import useSWR from 'swr';
 import { fetcher } from '../swr/config';
 import { useEffect, useState } from 'react';
-
+import { boardUpdateSchema } from '../schemas/board_update';
+import { z } from 'zod';
 
 const Home = () => {
   const session = useSession()
   const supabase = useSupabaseClient()
-
+  
   return (
     <div className="container" style={{ padding: '50px 0 100px 0' }}>
       {!session ? (
