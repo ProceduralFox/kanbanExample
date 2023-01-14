@@ -23,10 +23,10 @@ export default async function handler(
     .update({ column_id: body.new_column_id })
     .eq('id', req.query.task_id)
   
-    if(error) res.status(400).json(error)
-    res.status(200).json(data)
+    if(error) return res.status(400).json(error)
+    return res.status(200).json(data)
   } catch (error) {
-    res.status(400).json(error)
+    return res.status(400).json(error)
   }
 
 }

@@ -26,7 +26,7 @@ export default async function handler(
     .insert(body.task)
     .select()
 
-    if(taskError) res.status(400).json(taskError)
+    if(taskError) return res.status(400).json(taskError)
 
     if(taskData && body.subtasks){
       const id = taskData[0].id
@@ -44,14 +44,14 @@ export default async function handler(
       .insert(subtasksToInsert)
       .select()
 
-      if(subtaskError) res.status(400).json(subtaskError)
+      if(subtaskError) return res.status(400).json(subtaskError)
 
-      res.status(200).json({task: taskData, subtasks: subtaskData})
+      return res.status(200).json({task: taskData, subtasks: subtaskData})
     }
 
-    res.status(200).json({task: taskData, subtasks: "none to create"})
+    return res.status(200).json({task: taskData, subtasks: "none to create"})
   } catch (error) {
-    res.status(400).json(error)
+    return res.status(400).json(error)
   }
 
 }

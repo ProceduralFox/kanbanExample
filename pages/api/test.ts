@@ -12,5 +12,5 @@ export default function handler(
 ) {
 
 
-  res.status(200).json([{name: "Joe"}, {name: "Jane"}])
+  return res.status(200).json([{name: "Joe"}, {name: "Jane"}])
 }

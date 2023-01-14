@@ -38,25 +38,25 @@ export default async function handler(
     .delete()
     .in('id', toDelete)
 
-    if(delError) res.status(400).json(delError)
+    if(delError) return res.status(400).json(delError)
 
     let { error: colsError } = await supabase
     .from('board_columns')
     .upsert(toUpsert)
 
-    if(colsError) res.status(400).json(colsError)
+    if(colsError) return res.status(400).json(colsError)
 
     let { data, error: boardsError } = await supabase
     .from('boards')
     .update({name: body.name})
     .eq('id', req.query.board_id)
 
-    if(boardsError) res.status(400).json(boardsError)
+    if(boardsError) return res.status(400).json(boardsError)
 
 
-    res.status(200).json(data)
+    return res.status(200).json(data)
   } catch (error) {
-    res.status(400).json(error)
+    return res.status(400).json(error)
   }
 
 }

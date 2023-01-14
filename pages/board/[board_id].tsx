@@ -2,8 +2,17 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import useSWR from 'swr'
 import { fetcher } from '../../swr/config'
+import { moveTask } from '../../functions/moveTask'
+import { addColumn } from '../../functions/addColumn'
+import { FullBoard } from '../../types/responses'
+import BoardView from '../../components/board/board'
+import { StyledLayout } from '../../components/layout/styles'
+import Sidebar from '../../components/sidebar/sidebar_component'
+import TopBar from '../../components/topbar/top_bar'
+
 
 type Props = {}
+
 
 const BoardDetail = (props: Props) => {
 
@@ -11,77 +20,32 @@ const BoardDetail = (props: Props) => {
 
   const { board_id } = router.query;
 
-  const {data: boardInfo, error, mutate} = useSWR(`/api/boards/${board_id}/`, fetcher)
+
+  const {data: boardInfo, error, mutate} = useSWR<FullBoard[]>(`/api/boards/${board_id}/`, fetcher)
 
   if(!boardInfo) return <div>loading</div>
+  if(typeof board_id !== "string") return null // technically safer than type assertion right?
   // TODO: row level policy for ALL tables as well
 
-  console.log(boardInfo, "all board info here")
 
-  const addColumns = async () => {
-    // TODO: move all these to separate files, add row level policy for adding columns only to own boards
-    const response = await fetch(`/api/columns/add`, {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      // mode: 'cors', // no-cors, *cors, same-origin
-      // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, *same-origin, omit
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      // redirect: 'follow', // manual, *follow, error
-      // referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-      body: JSON.stringify({name: "new column", board_id: board_id}) // body data type must match "Content-Type" header
-    })
 
-    return await mutate()
-  }
+  console.log(boardInfo[0])
 
-  const moveTask = async (taskId: string, columnId: string) => {
-    console.log(taskId, columnId)
-    const response = await fetch(`/api/tasks/move`, {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      // mode: 'cors', // no-cors, *cors, same-origin
-      // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, *same-origin, omit
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      // redirect: 'follow', // manual, *follow, error
-      // referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-      body: JSON.stringify({id: taskId, column_id: columnId}) // body data type must match "Content-Type" header
-    })
-
-    console.log(response)
-    
-    return await mutate()
-  }
+  const columnsSimplified = boardInfo[0].columns.map((col)=>{return {name: col.name, id: col.id}})
 
   return (
-      <div>
-        <h1>Board Detail for {boardInfo[0].name},</h1>
-        <div>
-          {
-            boardInfo[0].columns.map((column:any, index:any)=>{
-              return (<div key={column.id}>
-                <h2 onClick={()=>{moveTask("5d944d54-e539-42a0-aa8a-5795d74706a6", column.id)}}>{column.name}</h2>
-                <div>
-                  {
-                    column.tasks.map((task:any, index: any)=>{
-                      return (
-                        <div>{task.name}</div>
-                      )
-                    })
-                  }
-                </div>
-              </div>)
-            })
-          }
-          <br />
-          <div>
-            <button onClick={()=>{console.log(addColumns())}}>Add new column</button>
-          </div>
-        </div>
+    <StyledLayout>
+    <div style={{background: "hotpink", width: "100%", height: "10%", display: "flex"}}>
+      <div style={{background: "lightblue", width: "20%"}}>Kanban + logo</div>
+      <TopBar board={{id:boardInfo[0].id, title: boardInfo[0].name}} mutate={mutate} columns={columnsSimplified}></TopBar>
+    </div>
+    <div style={{display: "flex", height: "90%"}}>
+      <Sidebar></Sidebar>
+      <div style={{width: "80%", overflow: "auto"}}>
+        <BoardView boardInfo={boardInfo[0]} boardId={board_id} mutate={mutate}></BoardView>
       </div>
+    </div>
+  </StyledLayout>
   )
 }
 
