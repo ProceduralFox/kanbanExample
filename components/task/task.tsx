@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Task, Subtask } from '../../types/responses'
 import { StyledTask } from './styles'
 import Modal from '../modal/modal'
-import TaskForm from './form/task_form'
+import TaskForm from '../form/task_form'
 
 
 type Props = {

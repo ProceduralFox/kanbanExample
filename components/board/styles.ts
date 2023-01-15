@@ -26,4 +26,5 @@ export const StyledBoardColumn = styled.li`
   flex-direction: column;
 
   min-width: 300px;
+  min-height: 90vh;
 `

@@ -21,14 +21,24 @@ export default async function handler(
 
     const user = await supabase.auth.getUser()
   
-    let { data, error } = await supabase
+    let { data: boardData, error:boardError } = await supabase
     .from('boards')
-    .insert({...body, owner: user.data.user?.id})
-    .eq('id', req.query.board_id)
+    .insert({name: body.name, owner: user.data.user?.id})
+    .select()
 
-    if(error) return res.status(400).json(error)
+    if(boardError) return res.status(400).json({message: boardError, operation: "board insert"})
+
+    const columns = body.columns.map((name)=>{
+      return {name: name, board_id: boardData?boardData[0].id:""}
+    })
+    
+    let { data: colsData, error: colsError } = await supabase
+    .from('board_columns')
+    .insert(columns)
+
+    if(colsError) return res.status(400).json({message: colsError, operation: "columns insert"})
   
-    res.status(200).json(data)
+    res.status(200).json(boardData)
   } catch (error) {
     res.status(400).json(error)
   }

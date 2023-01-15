@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { DarkModeContext } from '../../context/darkmode_context'
 import Modal from '../modal/modal'
-import TaskForm from '../task/form/task_form'
+import TaskForm from '../form/task_form'
 import { StyledTopBar } from './styles'
 import { H1 } from '../../styles/typography'
 import { StyledButtonPrimary } from '../../styles/buttons'

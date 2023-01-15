@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { WHITE, DARK_GREY_2 } from "../../../styles/variables";
+import { WHITE, DARK_GREY_2 } from "../../styles/variables";
 
 export const StyledFormWrapper = styled.div<{darkMode:boolean}>`
 
@@ -7,7 +7,6 @@ export const StyledFormWrapper = styled.div<{darkMode:boolean}>`
   border-radius: 6px;
 
   background ${props=>props.darkMode?DARK_GREY_2:WHITE};
-
 
 `
 
