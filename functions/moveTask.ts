@@ -1,6 +1,16 @@
 import { mutate } from "swr"
+import { ClientUpdate } from '../types/params'
 
-export const moveTask = async (taskId: string, columnId: string, mutateUrl?: string) => {
+
+export const moveTask = async (
+  taskId: string, 
+  columnId: string, 
+  clientUpdate: ClientUpdate
+  ) => {
+
+  if(clientUpdate.type==="state"){
+
+  }
   
   const response = await fetch(`/api/tasks/${taskId}/move`, {
     method: 'POST',
@@ -11,7 +21,7 @@ export const moveTask = async (taskId: string, columnId: string, mutateUrl?: str
     body: JSON.stringify({task_id: taskId, new_column_id: columnId})
   })
 
-  if(mutateUrl)  await mutate(mutateUrl)
+
 
   return response
 }
