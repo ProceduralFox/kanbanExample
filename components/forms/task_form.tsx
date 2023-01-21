@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { Task, Subtask } from '../../types/responses'
 import { taskUpdateSubtasks } from '../../schemas/task_update'
 import { z } from 'zod'
-import { StyledButtonDestructive, StyledButtonPrimary, StyledButtonSecondary } from '../../styles/buttons'
+import { StyledButtonPrimary, StyledButtonSecondary } from '../../styles/buttons'
 import { StyledInput, StyledLabel, StyledSelect, StyledTextArea } from '../../styles/form_elements'
 import { StyledFormSection, StyledFormSubtaskWrapper, StyledFormWrapper } from './styles'
 import { DarkModeContext } from '../../context/darkmode_context'
@@ -11,6 +10,7 @@ import { H2 } from '../../styles/typography'
 import { updateTask } from '../../functions/updateTask'
 import Image from 'next/image'
 import { createTask } from '../../functions/createTask'
+import { v4 as uuidv4 } from 'uuid';
 
 type Props = {
   task?: Task
@@ -115,7 +115,8 @@ const TaskForm = (props: Props) => {
             {
               subtasks.map((subtask, index)=>{
                 if(subtask.toDelete) return null
-                return ( <StyledFormSubtaskWrapper>
+                // this key feels kinda bad
+                return ( <StyledFormSubtaskWrapper key={subtask.id?subtask.id:uuidv4()}> 
                     <StyledInput
                     onChange={(e)=>{handleSubtaskRename(index, e.target.value)}}
                     darkMode={darkMode} type="text" value={subtasks[index].name} />

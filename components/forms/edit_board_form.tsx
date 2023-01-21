@@ -5,10 +5,6 @@ import { H2 } from '../../styles/typography'
 import { StyledInput, StyledLabel } from '../../styles/form_elements'
 import Image from 'next/image'
 import { StyledButtonPrimary, StyledButtonSecondary } from '../../styles/buttons'
-import { createBoard } from '../../functions/createBoard'
-import DotMenu from '../dot_menu/dot_menu'
-import { RED } from '../../styles/colours'
-import { FullBoard, Column } from '../../types/responses'
 import { updateBoard } from '../../functions/editBoard'
 import { z } from 'zod'
 import { boardUpdateSchema } from '../../schemas/board_update'
@@ -71,7 +67,7 @@ const EditBoardForm = (props: Props) => {
           {
               columns.map((column, index)=>{
                 if(column.toDelete) return null
-                return ( <StyledFormSubtaskWrapper>
+                return ( <StyledFormSubtaskWrapper key={column.id}>
                     <StyledInput
                     onChange={(e)=>{handleColumnRename(index, e.target.value)}}
                     darkMode={darkMode} type="text" 

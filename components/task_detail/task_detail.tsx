@@ -38,7 +38,7 @@ const TaskDetail = (props: Props) => {
         <PL>Subtasks</PL>
         {
           task.subtasks.map((subtask)=>{
-            return <SubtaskCheckbox subtask={subtask}></SubtaskCheckbox>
+            return <SubtaskCheckbox key={subtask.id} subtask={subtask}></SubtaskCheckbox>
           })
         }
       </StyledFormSection>

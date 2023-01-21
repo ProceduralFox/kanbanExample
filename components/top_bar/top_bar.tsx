@@ -28,7 +28,7 @@ type Props = {
 
 
 const TopBar = (props: Props) => {
-  const { board, columns, mutate } = props
+  const { board, columns } = props
   const { darkMode } = useContext(DarkModeContext)
 
   const size = useWindowSize()
@@ -78,13 +78,13 @@ const TopBar = (props: Props) => {
     </Modal>
 
     <Modal hidden={modalTaskHidden} setHidden={setModalTaskHidden}>
-        <TaskForm columns={columns} setHidden={setModalTaskHidden} mutate={mutate} board_id={board.id}></TaskForm>
+        <TaskForm columns={columns} setHidden={setModalTaskHidden} board_id={board.id}></TaskForm>
     </Modal>
     <Modal hidden={modalBoardHidden} setHidden={setModalBoardHidden}>
-      <EditBoardForm board={simplifiedBoard} mutate={mutate} setHidden={setModalBoardHidden}></EditBoardForm>
+      <EditBoardForm board={simplifiedBoard} setHidden={setModalBoardHidden}></EditBoardForm>
     </Modal>
     <Modal hidden={modalDeleteBoardHidden} setHidden={setModalDeleteBoardHidden}>
-      <DeleteForm setHidden={setModalDeleteBoardHidden} type='board' mutate={mutate} name={board.name} id={board.id}></DeleteForm>
+      <DeleteForm setHidden={setModalDeleteBoardHidden} type='board' name={board.name} id={board.id}></DeleteForm>
     </Modal>
   </>)
   }
@@ -103,13 +103,13 @@ const TopBar = (props: Props) => {
 
       </StyledTopBar>
       <Modal hidden={modalTaskHidden} setHidden={setModalTaskHidden}>
-          <TaskForm columns={columns} setHidden={setModalTaskHidden} mutate={mutate} board_id={board.id}></TaskForm>
+          <TaskForm columns={columns} setHidden={setModalTaskHidden} board_id={board.id}></TaskForm>
       </Modal>
       <Modal hidden={modalBoardHidden} setHidden={setModalBoardHidden}>
-        <EditBoardForm board={simplifiedBoard} mutate={mutate} setHidden={setModalBoardHidden}></EditBoardForm>
+        <EditBoardForm board={simplifiedBoard} setHidden={setModalBoardHidden}></EditBoardForm>
       </Modal>
       <Modal hidden={modalDeleteBoardHidden} setHidden={setModalDeleteBoardHidden}>
-        <DeleteForm setHidden={setModalDeleteBoardHidden} type='board' mutate={mutate} name={board.name} id={board.id}></DeleteForm>
+        <DeleteForm setHidden={setModalDeleteBoardHidden} type='board' name={board.name} id={board.id}></DeleteForm>
       </Modal>
     </>
   )

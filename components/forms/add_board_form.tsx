@@ -6,10 +6,6 @@ import { StyledInput, StyledLabel } from '../../styles/form_elements'
 import Image from 'next/image'
 import { StyledButtonPrimary, StyledButtonSecondary } from '../../styles/buttons'
 import { createBoard } from '../../functions/createBoard'
-import DotMenu from '../dot_menu/dot_menu'
-import { RED } from '../../styles/colours'
-import { FullBoard } from '../../types/responses'
-
 
 type Props = {
   setHidden: Function,
@@ -54,7 +50,7 @@ const AddBoardForm = (props: Props) => {
           <ul style={{width: "100%", padding: "0"}}>
           {
               columns.map((name, index)=>{
-                return ( <StyledFormSubtaskWrapper>
+                return ( <StyledFormSubtaskWrapper key={`${name}-${index}`}>
                     <StyledInput
                     onChange={(e)=>{handleRenameColumn(index, e.target.value)}}
                     darkMode={darkMode} type="text" value={name} />
