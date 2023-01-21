@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BLACK, DARK_GREY_2, GREY_3, WHITE } from "./variables";
+import { BLACK, DARK_GREY_2, GREY_3, WHITE } from "./colours";
 
 
 

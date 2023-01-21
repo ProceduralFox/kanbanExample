@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BLACK, WHITE } from "./variables";
+import { BLACK, GREY_3, WHITE } from "./colours";
 
 export const H1 = styled.h1<{darkMode: boolean}>`
   color: ${props=>props.darkMode?WHITE:BLACK};
@@ -28,7 +28,7 @@ export const H3 = styled.h3<{darkMode: boolean}>`
   text-align: left;
 `
 
-export const H4 = styled.h3<{darkMode: boolean}>`
+export const H4 = styled.h4<{darkMode: boolean}>`
   color: ${props=>props.darkMode?WHITE:BLACK};
   font-size: 12px;
   font-weight: 700;
@@ -37,14 +37,19 @@ export const H4 = styled.h3<{darkMode: boolean}>`
   text-align: left;
 `
 
-export const paragraphLarge = styled.p`
+export const PL = styled.p<{colour?: string, maxWidth?: string}>`
   font-size: 13px;
   font-weight: 500;
   line-height: 23px;
   letter-spacing: 0px;
   text-align: left;
+
+  color: ${props=>props.colour?props.colour:GREY_3};
+
+  ${props=>props.maxWidth?`max-width: ${props.maxWidth};`:``}
+
 `
-export const paragraphMedium = styled.p`
+export const PM = styled.p`
   font-size: 13px;
   font-weight: 500;
   line-height: 23px;

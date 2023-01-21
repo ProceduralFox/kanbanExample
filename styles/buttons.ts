@@ -1,13 +1,13 @@
 import styled from "styled-components";
-import { LIGHT_PURPLE, PURPLE, PURPLE_OPAQUE, WHITE, RED, LIGHT_RED } from "./variables";
+import { LIGHT_PURPLE, PURPLE, PURPLE_OPAQUE, WHITE, RED, LIGHT_RED } from "./colours";
 
-const StyledButtonBase = styled.button`
+const StyledButtonBase = styled.button<{width?: string}>`
   border: none;
   background: none;
 
 
   height: 40px;
-  width: 100%;
+  width: ${props=>props.width?props.width:`100%`};
   border-radius: 20px;
 
   display: flex;

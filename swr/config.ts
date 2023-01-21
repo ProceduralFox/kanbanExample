@@ -15,7 +15,7 @@ export const fetcher = (url: string) => {
   //   credentials: 'same-origin',
   // }
 
-  // console.log("session", url, "loggging from fetcher", token)
+  // 
   // if (data) {
   //   options.method = 'POST'
   //   options.body = JSON.stringify(data)
@@ -24,6 +24,8 @@ export const fetcher = (url: string) => {
   return fetch(url).then((res) => {
     if (!res.ok) {
       // global error handling
+      const error = new Error('supabase error')
+      throw error
     }
     return res.json()
   })

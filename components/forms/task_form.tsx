@@ -16,13 +16,12 @@ type Props = {
   task?: Task
   columns: {name: string, id: string}[]
   board_id?: string
-  mutate: Function
   setHidden: Function
 }
 
 
 const TaskForm = (props: Props) => {
-  const { task, columns, mutate, setHidden, board_id } = props
+  const { task, columns, setHidden, board_id } = props
 
   const { darkMode } = useContext(DarkModeContext)
 
@@ -40,7 +39,7 @@ const TaskForm = (props: Props) => {
     setSubtasks(newSubtasks)
   }
 
-  const handleSubmit = (mutate: Function, task?: Task) => {
+  const handleSubmit = (task?: Task) => {
     if(task){
       const updateBody = {
         task: {
@@ -53,7 +52,7 @@ const TaskForm = (props: Props) => {
         subtasks:[...subtasks]
       }
   
-      updateTask(updateBody, mutate)
+      updateTask(updateBody, `/api/boards/${task.board_id}/`)
     } else {
       if(!board_id) return null // TODO: add FE error handling with toastify here
 
@@ -67,7 +66,7 @@ const TaskForm = (props: Props) => {
         subtasks:[...subtasks]
       }
 
-      createTask(createBody, mutate)
+      createTask(createBody, `/api/boards/${board_id}/`)
 
     }
 
@@ -142,7 +141,7 @@ const TaskForm = (props: Props) => {
               }
           </StyledSelect>
         </StyledFormSection>
-        <StyledButtonPrimary onClick={(e)=>{e.preventDefault();handleSubmit(mutate, task)}}>{task?"Save Changes":"Create Task"}</StyledButtonPrimary>
+        <StyledButtonPrimary onClick={(e)=>{e.preventDefault();handleSubmit(task)}}>{task?"Save Changes":"Create Task"}</StyledButtonPrimary>
       </form>
     </StyledFormWrapper>
   )

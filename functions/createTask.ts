@@ -1,9 +1,9 @@
 import z from 'zod'
 import { taskAddSchema } from '../schemas/task_add'
+import { mutate } from 'swr'
 
 
-
-export const createTask = async (body: z.infer<typeof taskAddSchema>, mutate: Function) => {
+export const createTask = async (body: z.infer<typeof taskAddSchema>, mutateUrl?: string) => {
   const response = await fetch(`/api/tasks/add`, {
     method: 'POST',
     credentials: 'same-origin', 
@@ -13,5 +13,7 @@ export const createTask = async (body: z.infer<typeof taskAddSchema>, mutate: Fu
     body: JSON.stringify(body)
   })
   
-  return await mutate()
+  if(mutateUrl) await mutate(mutateUrl)
+  
+  return response
 }

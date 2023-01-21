@@ -22,7 +22,7 @@ export default async function handler(
 //   .select('id')
 
 
-//   console.log(boards, error)
+//   
 
 //   return boards
 // }

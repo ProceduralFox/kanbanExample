@@ -12,7 +12,7 @@ type Props = {
 const Modal = (props: Props) => {
   const { hidden, setHidden } = props
   
-  console.log("?", hidden)
+  
 
   if(hidden) return null
 

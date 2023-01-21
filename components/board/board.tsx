@@ -1,18 +1,28 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { FullBoard } from '../../types/responses'
-import { StyledBoard, StyledBoardColumn } from './styles'
+import { StyledBoard, StyledBoardColumn, StyledBoardColumnTitle } from './styles'
 import { moveTask } from '../../functions/moveTask'
 import { addColumn } from '../../functions/addColumn'
 import Task from '../task/task'
+import Modal from '../modal/modal'
+import AddColumnForm from '../forms/add_column_form'
+import { DarkModeContext } from '../../context/darkmode_context'
 
 type Props = {
   boardInfo: FullBoard
   boardId: string
-  mutate: Function
+  
 }
 
+
+
 const BoardView = (props: Props) => {
-  const { boardInfo, mutate, boardId } = props
+  const { boardInfo, boardId } = props
+
+  const { darkMode } = useContext(DarkModeContext)
+
+  const [ modalHidden, setModalHidden ] = useState(true)
+
 
   const handleDragOver = (e: React.DragEvent) => {
     e.stopPropagation();
@@ -23,13 +33,13 @@ const BoardView = (props: Props) => {
     e.preventDefault()
     const taskId = e.dataTransfer.getData("taskId")
 
-    moveTask(taskId, columnId, mutate)
+    moveTask(taskId, columnId, `/api/boards/${boardInfo.id}/`)
   }
 
   const columnsSimplified = boardInfo.columns.map((col)=>{return {name: col.name, id: col.id}})
-
+  
   return (
-    <StyledBoard>
+    <StyledBoard darkMode={darkMode}>
         {
           boardInfo.columns.map((column, index)=>{
             return (
@@ -38,46 +48,24 @@ const BoardView = (props: Props) => {
                 onDrop={(e)=>handleDrop(e, column.id)}
                 key={index}
                 >
-                  <h2>{column.name}</h2>
-                  {
-                    column.tasks.map((task)=>{
-                      return <Task mutate={mutate} task={task} columns={columnsSimplified}></Task>
-                    })
-                  }
+                  <StyledBoardColumnTitle isEven={index%2} darkMode={false}>{column.name}</StyledBoardColumnTitle>
+                  <ul>
+                    {
+                      column.tasks.map((task)=>{
+                        return <Task key={task.id} task={task} columns={columnsSimplified}></Task>
+                      })
+                    }
+                  </ul>
               </StyledBoardColumn>
             )
           })
         }
-        <button>Add column</button>
-
-      
-
-      {/* <div>
-        <div>
-          {
-            boardInfo.columns.map((column:any, index:any)=>{
-              return (<div key={column.id}>
-                <h2 onClick={()=>{moveTask("5d944d54-e539-42a0-aa8a-5795d74706a6", column.id, mutate)}}>{column.name}</h2>
-                <div>
-                  {
-                    column.tasks.map((task:any, index: any)=>{
-                      return (
-                        <div>{task.name}</div>
-                      )
-                    })
-                  }
-                </div>
-              </div>)
-            })
-          }
-          <br />
-          <div>
-            <button onClick={()=>{addColumn(boardId, "test", mutate)}}>Add new column</button>
-          </div>
-        </div>
-      </div> */}
+        <StyledBoardColumn center={true} onClick={(e)=>{setModalHidden(false)}}>+ Add Column</StyledBoardColumn>
+        <Modal hidden={modalHidden} setHidden={setModalHidden}><AddColumnForm setHidden={setModalHidden} boardId={boardId}></AddColumnForm></Modal>
     </StyledBoard>
   )
 }
+
+
 
 export default BoardView

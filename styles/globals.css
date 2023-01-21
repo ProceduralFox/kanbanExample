@@ -11,10 +11,14 @@
 html, body, main {
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+}
+main{
+  display: flex;
 }
 img, picture, video, canvas, svg {
   display: block;

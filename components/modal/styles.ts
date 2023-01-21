@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { GREY_2_OPAQUE } from "../../styles/variables";
+import { GREY_2_OPAQUE } from "../../styles/colours";
 
 
 
@@ -23,8 +23,8 @@ export const StyledModalBackground = styled.div`
 `
 
 export const StyledModalCenter = styled.div`
-  background: white;
-  border-radius: 6px;
+  background: transparent;
+  border-radius: 8px;
 
   min-width: 200px;
   min-height: 200px;

@@ -1,4 +1,7 @@
-export const addColumn = async (board_id: string, name: string, mutate: Function) => {
+import { mutate } from "swr"
+
+
+export const addColumn = async (board_id: string, name: string, mutateUrl: string ) => {
   // TODO: move all these to separate files, add row level policy for adding columns only to own boards
   const response = await fetch(`/api/columns/add`, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -13,5 +16,7 @@ export const addColumn = async (board_id: string, name: string, mutate: Function
     body: JSON.stringify({name: name, board_id: board_id}) // body data type must match "Content-Type" header
   })
 
-  return await mutate()
+  if(mutateUrl) await mutate(mutateUrl)
+  
+  return response
 }

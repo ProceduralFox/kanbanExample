@@ -4,10 +4,10 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { Database } from '../../../../types/supabase'
 import { z } from 'zod'
 import { boardUpdateColumn, boardUpdateSchema } from '../../../../schemas/board_update'
+import { v4 as uuidv4 } from 'uuid';
 
 type Data = any
 
-type ColumnUpdate = Database["public"]["Tables"]["board_columns"]["Insert"] & {toDelete: boolean}
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,6 +20,8 @@ export default async function handler(
 
     const body: z.infer<typeof boardUpdateSchema> = req.body
 
+    
+
     const toDelete: string[] = []
     const toUpsert: z.infer<typeof boardUpdateColumn>[] = []
 
@@ -28,6 +30,8 @@ export default async function handler(
         if(col.id) toDelete.push(col.id)
       } else {
         delete col.toDelete
+        
+        if(!col.id) col.id = uuidv4()
         toUpsert.push(col)
       }
     })
@@ -38,20 +42,21 @@ export default async function handler(
     .delete()
     .in('id', toDelete)
 
-    if(delError) return res.status(400).json(delError)
+    if(delError) return res.status(400).json({message: delError, operation: "columns delete"})
 
+    
     let { error: colsError } = await supabase
     .from('board_columns')
     .upsert(toUpsert)
 
-    if(colsError) return res.status(400).json(colsError)
+    if(colsError) return res.status(400).json({message: colsError, operation: "columns upsert"})
 
     let { data, error: boardsError } = await supabase
     .from('boards')
     .update({name: body.name})
     .eq('id', req.query.board_id)
 
-    if(boardsError) return res.status(400).json(boardsError)
+    if(boardsError) return res.status(400).json({message: boardsError, operation: "boards update"})
 
 
     return res.status(200).json(data)

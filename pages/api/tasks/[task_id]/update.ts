@@ -16,9 +16,9 @@ export default async function handler(
 ) {
   const supabase = createServerSupabaseClient<Database>({ req, res })
   try {
-    console.log("??????????????", req.body.subtasks)
+    
     taskUpdateSchema.parse(req.body)
-    console.log("!!!!!!!!!!!!!!!!!!!!!!")
+    
 
 
     const body: z.infer<typeof taskUpdateSchema> = req.body

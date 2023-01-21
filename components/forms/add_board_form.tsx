@@ -6,21 +6,27 @@ import { StyledInput, StyledLabel } from '../../styles/form_elements'
 import Image from 'next/image'
 import { StyledButtonPrimary, StyledButtonSecondary } from '../../styles/buttons'
 import { createBoard } from '../../functions/createBoard'
+import DotMenu from '../dot_menu/dot_menu'
+import { RED } from '../../styles/colours'
+import { FullBoard } from '../../types/responses'
+
 
 type Props = {
-  mutate: Function
-  setHidden: Function
+  setHidden: Function,
 }
 
 const AddBoardForm = (props: Props) => {
-  const { mutate, setHidden } = props
+  const { setHidden } = props
   const { darkMode } = useContext(DarkModeContext);
 
   const [columns, setColumns] = useState<string[]>([])
   const [name, setName] = useState("")
 
   const handleDeleteColumn = (targetIndex: number) => {
-    const newColumns = columns.filter((name, index)=>{index!==targetIndex})
+    const newColumns = [] 
+    for (const index in columns){
+      if(targetIndex!==parseInt(index)) newColumns.push(columns[index])
+    }
     setColumns(newColumns)
   }
 
@@ -46,13 +52,12 @@ const AddBoardForm = (props: Props) => {
       <StyledFormSection>
           <StyledLabel darkMode={darkMode}>Board Columns</StyledLabel>
           <ul style={{width: "100%", padding: "0"}}>
-            {
-              columns.map((column, index)=>{
+          {
+              columns.map((name, index)=>{
                 return ( <StyledFormSubtaskWrapper>
                     <StyledInput
-                    value={columns[index]}
                     onChange={(e)=>{handleRenameColumn(index, e.target.value)}}
-                    darkMode={darkMode} type="text" />
+                    darkMode={darkMode} type="text" value={name} />
                     <Image 
                       onClick={()=>{handleDeleteColumn(index)}}
                       src={"/x_icon.svg"} alt="removal icon" width={14.85} height={14.85}></Image>
@@ -63,7 +68,7 @@ const AddBoardForm = (props: Props) => {
           </ul>
           <StyledButtonSecondary darkMode={darkMode} onClick={(e)=>{e.preventDefault();setColumns([...columns, ""])}}>Add Column</StyledButtonSecondary>
         </StyledFormSection>
-        <StyledButtonPrimary onClick={(e)=>{e.preventDefault(); createBoard({name: name, columns: columns}, mutate); setHidden(true)}}>Create New Board</StyledButtonPrimary>
+        <StyledButtonPrimary onClick={(e)=>{e.preventDefault(); createBoard({name: name, columns: columns}, "/api/boards"); setHidden(true)}}>Create New Board</StyledButtonPrimary>
     </form>
 
 

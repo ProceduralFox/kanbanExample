@@ -10,6 +10,8 @@ export const GREY_2_OPAQUE = 'hsla(221, 69%, 94%, 0.5)';
 
 export const GREY_3 = 'hsl(216, 15%, 57%)';
 
+export const GREY_3_OPAQUE = (opacity:string)=>`hsla(216, 15%, 57%, ${opacity})`
+
 export const DARK_GREY_1 = 'hsl(235, 16%, 15%)';
 
 export const DARK_GREY_2 = 'hsl(235, 12%, 19%)';
@@ -24,7 +26,9 @@ export const LIGHT_PURPLE = 'hsl(243, 100%, 82%)';
 
 export const RED = 'hsl(0, 78%, 63%)';
 
-export const LIGHT_RED = 'hsl(0, 100%, 80%)'
+export const LIGHT_RED = 'hsl(0, 100%, 80%)';
+
+export const CYAN = 'hsla(193, 75%, 59%)';
 
 
 
