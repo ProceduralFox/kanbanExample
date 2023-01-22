@@ -1,12 +1,15 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { FullBoard } from '../../types/responses'
 import { StyledBoard, StyledBoardColumn, StyledBoardColumnTitle } from './styles'
-import { moveTask } from '../../functions/moveTask'
+import { moveTask, sendRequest } from '../../functions/moveTask'
 import { addColumn } from '../../functions/addColumn'
 import Task from '../task/task'
 import Modal from '../modal/modal'
 import AddColumnForm from '../forms/add_column_form'
 import { DarkModeContext } from '../../context/darkmode_context'
+import useSWRMutation from 'swr/mutation'
+
+
 
 type Props = {
   boardInfo: FullBoard
@@ -22,6 +25,11 @@ const BoardView = (props: Props) => {
   const { darkMode } = useContext(DarkModeContext)
 
   const [ modalHidden, setModalHidden ] = useState(true)
+  const [boardState, setBoardState] = useState(boardInfo)
+
+  useEffect(()=>{
+    setBoardState(boardInfo)
+  }, [boardInfo])
 
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -33,7 +41,8 @@ const BoardView = (props: Props) => {
     e.preventDefault()
     const taskId = e.dataTransfer.getData("taskId")
 
-    moveTask(taskId, columnId, `/api/boards/${boardInfo.id}/`)
+    // moveTask(taskId, columnId, { type:"state", currentState: boardState, setState: setBoardState})
+    moveTask(taskId, columnId, { type:"mutate", mutateUrl: `/api/boards/${props.boardId}/`, currentState: boardState})
   }
 
   const columnsSimplified = boardInfo.columns.map((col)=>{return {name: col.name, id: col.id}})
@@ -41,7 +50,7 @@ const BoardView = (props: Props) => {
   return (
     <StyledBoard darkMode={darkMode}>
         {
-          boardInfo.columns.map((column, index)=>{
+          boardState.columns.map((column, index)=>{
             return (
               <StyledBoardColumn 
                 onDragOver={(e)=>handleDragOver(e)}
@@ -51,7 +60,7 @@ const BoardView = (props: Props) => {
                   <StyledBoardColumnTitle isEven={index%2} darkMode={false}>{column.name}</StyledBoardColumnTitle>
                   <ul>
                     {
-                      column.tasks.map((task)=>{
+                      column.tasks.map((task, index)=>{
                         return <Task key={task.id} task={task} columns={columnsSimplified}></Task>
                       })
                     }

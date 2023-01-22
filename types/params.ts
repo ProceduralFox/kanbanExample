@@ -1,7 +1,7 @@
 export type ClientUpdate<T = void> = {
   type: "mutate"
   mutateUrl: string,
-  options:{[key:string]:any}
+  currentState: T
 } | {
   type: "state"
   currentState: T
