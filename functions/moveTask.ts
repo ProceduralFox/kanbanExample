@@ -37,7 +37,7 @@ export const moveTask = async (
 export const sendRequest = async (key: string, arg: any ) => {
   const { taskId, newColumnId } = arg.arg //
 
-  const response = await fetch(`/api/tasks/${taskId}/move`, {
+  const response = fetch(`/api/tasks/${taskId}/move`, {
     method: 'POST',
     credentials: 'same-origin',
     headers: {
