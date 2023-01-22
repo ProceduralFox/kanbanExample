@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { FullBoard } from '../../types/responses'
 import { StyledBoard, StyledBoardColumn, StyledBoardColumnTitle } from './styles'
-import { moveTask, sendRequest } from '../../functions/moveTask'
+import { moveTask, sendRequest, getOptimisticData } from '../../functions/moveTask'
 import { addColumn } from '../../functions/addColumn'
 import Task from '../task/task'
 import Modal from '../modal/modal'
@@ -23,13 +23,14 @@ const BoardView = (props: Props) => {
   const { boardInfo, boardId } = props
 
   const { darkMode } = useContext(DarkModeContext)
+  const { trigger } = useSWRMutation(`/api/boards/${props.boardId}/`, sendRequest )
 
   const [ modalHidden, setModalHidden ] = useState(true)
   const [boardState, setBoardState] = useState(boardInfo)
 
-  useEffect(()=>{
-    setBoardState(boardInfo)
-  }, [boardInfo])
+  // useEffect(()=>{
+  //   setBoardState(boardInfo)
+  // }, [boardInfo])
 
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -41,7 +42,10 @@ const BoardView = (props: Props) => {
     e.preventDefault()
     const taskId = e.dataTransfer.getData("taskId")
 
-    moveTask(taskId, columnId, { type:"state", currentState: boardState, setState: setBoardState})
+    trigger({taskId: taskId, newColumnId: columnId}, { 
+      optimisticData: current => [getOptimisticData(boardInfo, boardState, taskId, columnId)]
+    })
+    // moveTask(taskId, columnId, { type:"state", currentState: boardState, setState: setBoardState})
     // moveTask(taskId, columnId, { type:"mutate", mutateUrl: `/api/boards/${props.boardId}/`, currentState: boardState})
   }
 
@@ -50,7 +54,7 @@ const BoardView = (props: Props) => {
   return (
     <StyledBoard darkMode={darkMode}>
         {
-          boardState.columns.map((column, index)=>{
+          boardInfo.columns.map((column, index)=>{
             return (
               <StyledBoardColumn 
                 onDragOver={(e)=>handleDragOver(e)}

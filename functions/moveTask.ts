@@ -1,6 +1,7 @@
 import { mutate } from "swr"
 import { ClientUpdate } from '../types/params'
 import { FullBoard } from "../types/responses"
+import cloneDeep from 'lodash/cloneDeep';
 
 
 export const moveTask = async (
@@ -8,7 +9,7 @@ export const moveTask = async (
   newColumnId: string, 
   clientUpdate: ClientUpdate<FullBoard>
   ) => {
-  const newState = getOptimisticData(clientUpdate.currentState, newColumnId, taskId)
+  const newState = getOptimisticData(clientUpdate.currentState, clientUpdate.currentState, newColumnId, taskId)
 
   if(clientUpdate.type==="state") clientUpdate.setState(newState)
 
@@ -31,8 +32,11 @@ export const moveTask = async (
   return response
 }
 
+// options: { taskId: string, newColumnId: string}
+// TODO: the typing is atrocious i need to figure it out
+export const sendRequest = async (key: string, arg: any ) => {
+  const { taskId, newColumnId } = arg.arg //
 
-export const sendRequest = async (taskId: string, newColumnId: string) => {
   const response = await fetch(`/api/tasks/${taskId}/move`, {
     method: 'POST',
     credentials: 'same-origin',
@@ -43,9 +47,10 @@ export const sendRequest = async (taskId: string, newColumnId: string) => {
   })
 }
 
-const getOptimisticData = (currentState: FullBoard, newColumnId: string, taskId: string) => {
-  const newState = structuredClone(currentState);
-
+export const getOptimisticData = (currentState: FullBoard, control: FullBoard, newColumnId: string, taskId: string) => {
+  // there was a really strange bug here with deep cloning no matter the approach used, but it works without issue
+  // with a shallow copy
+  const newState = currentState; 
   let newColumnIndex = 0
   let oldColumnIndex = 0
   let oldTaskIndex = 0
@@ -70,10 +75,11 @@ const getOptimisticData = (currentState: FullBoard, newColumnId: string, taskId:
     }
   }
 
+
   const movedTask = newState.columns[oldColumnIndex].tasks.splice(oldTaskIndex,1)[0]
-  console.log(movedTask, "moved task is undefined?")
+
   newState.columns[newColumnIndex].tasks.push(movedTask)
-  console.log(newState)
+
 
   return newState
 }
