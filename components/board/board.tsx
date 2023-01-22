@@ -43,7 +43,7 @@ const BoardView = (props: Props) => {
     const taskId = e.dataTransfer.getData("taskId")
 
     trigger({taskId: taskId, newColumnId: columnId}, { 
-      optimisticData: current => [getOptimisticData(boardInfo, boardState, taskId, columnId)]
+      optimisticData: current => [getOptimisticData(current[0] as FullBoard, boardState, taskId, columnId)]
     })
     // moveTask(taskId, columnId, { type:"state", currentState: boardState, setState: setBoardState})
     // moveTask(taskId, columnId, { type:"mutate", mutateUrl: `/api/boards/${props.boardId}/`, currentState: boardState})
