@@ -1,4 +1,4 @@
-export type ClientUpdate<T = void> = {
+export type ClientUpdate<T = undefined> = {
   type: "mutate"
   mutateUrl: string,
   currentState: T

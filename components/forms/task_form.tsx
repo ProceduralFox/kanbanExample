@@ -66,7 +66,7 @@ const TaskForm = (props: Props) => {
         subtasks:[...subtasks]
       }
 
-      createTask(createBody, `/api/boards/${board_id}/`)
+      createTask(createBody, {type: "mutate", mutateUrl: `/api/boards/${board_id}/`, currentState: undefined})
 
     }
 

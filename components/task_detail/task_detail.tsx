@@ -42,8 +42,11 @@ const TaskDetail = (props: Props) => {
           })
         }
       </StyledFormSection>
+      {
+        // moveTask(task.id, e.target.value)
+      }
       <StyledFormSection>
-        <StyledSelect darkMode={darkMode} value={selectedColumn} onChange={(e)=>{setSelectedColumn(e.target.value); moveTask(task.id, e.target.value)}}>
+        <StyledSelect darkMode={darkMode} value={selectedColumn} onChange={(e)=>{setSelectedColumn(e.target.value);}}>
           {
             columns.map((column, index)=>{
               return (
