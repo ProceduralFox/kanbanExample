@@ -41,8 +41,8 @@ const BoardView = (props: Props) => {
     e.preventDefault()
     const taskId = e.dataTransfer.getData("taskId")
 
-    // moveTask(taskId, columnId, { type:"state", currentState: boardState, setState: setBoardState})
-    moveTask(taskId, columnId, { type:"mutate", mutateUrl: `/api/boards/${props.boardId}/`, currentState: boardState})
+    moveTask(taskId, columnId, { type:"state", currentState: boardState, setState: setBoardState})
+    // moveTask(taskId, columnId, { type:"mutate", mutateUrl: `/api/boards/${props.boardId}/`, currentState: boardState})
   }
 
   const columnsSimplified = boardInfo.columns.map((col)=>{return {name: col.name, id: col.id}})
