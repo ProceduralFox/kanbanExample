@@ -16,9 +16,12 @@ export const moveTask = async (
   if(clientUpdate.type==="mutate") {          
     const options = {
       optimisticData: [newState],
-      populateCache: false
+      populateCache: false,
+      revalidate: false
     }
     mutate(clientUpdate.mutateUrl, sendRequest("", taskId, newColumnId), options)
+
+    
   } 
 
   // const response = await fetch(`/api/tasks/${taskId}/move`, {
@@ -58,9 +61,7 @@ export const sendRequest = async (key: string, taskId: string, newColumnId: stri
 }
 
 export const getOptimisticData = (currentState: FullBoard, control: FullBoard, newColumnId: string, taskId: string) => {
-  // there was a really strange bug here with deep cloning no matter the approach used, but it works without issue
-  // with a shallow copy
-  const newState = currentState; 
+  const newState = structuredClone(currentState); 
   let newColumnIndex = 0
   let oldColumnIndex = 0
   let oldTaskIndex = 0
