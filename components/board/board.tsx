@@ -23,7 +23,7 @@ const BoardView = (props: Props) => {
   const { boardInfo, boardId } = props
 
   const { darkMode } = useContext(DarkModeContext)
-  const { trigger, isMutating } = useSWRMutation(`/api/boards/${props.boardId}/`, sendRequest )
+  // const { trigger, isMutating } = useSWRMutation(`/api/boards/${props.boardId}/`, sendRequest )
 
   const [ modalHidden, setModalHidden ] = useState(true)
   const [boardState, setBoardState] = useState(boardInfo)
@@ -42,11 +42,11 @@ const BoardView = (props: Props) => {
     e.preventDefault()
     const taskId = e.dataTransfer.getData("taskId")
 
-    trigger({taskId: taskId, newColumnId: columnId}, {
-      optimisticData: current => [getOptimisticData(current![0] as FullBoard, boardState, taskId, columnId)]
-    })
+    // trigger({taskId: taskId, newColumnId: columnId}, {
+    //   optimisticData: current => [getOptimisticData(current![0] as FullBoard, boardState, taskId, columnId)]
+    // })
     // moveTask(taskId, columnId, { type:"state", currentState: boardState, setState: setBoardState})
-    // moveTask(taskId, columnId, { type:"mutate", mutateUrl: `/api/boards/${props.boardId}/`, currentState: boardState})
+    moveTask(taskId, columnId, { type:"mutate", mutateUrl: `/api/boards/${props.boardId}/`, currentState: boardInfo})
   }
 
   const columnsSimplified = boardInfo.columns.map((col)=>{return {name: col.name, id: col.id}})

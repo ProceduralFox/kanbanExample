@@ -13,6 +13,38 @@ export const moveTask = async (
 
   if(clientUpdate.type==="state") clientUpdate.setState(newState)
 
+  if(clientUpdate.type==="mutate") {          
+    const options = {
+      optimisticData: [newState],
+      populateCache: false
+    }
+    mutate(clientUpdate.mutateUrl, sendRequest("", taskId, newColumnId), options)
+  } 
+
+  // const response = await fetch(`/api/tasks/${taskId}/move`, {
+  //   method: 'POST',
+  //   credentials: 'same-origin',
+  //   headers: {
+  //     'Content-Type': 'application/json'
+  //   },
+  //   body: JSON.stringify({task_id: taskId, new_column_id: newColumnId})
+  // })
+
+  // if(clientUpdate.type==="mutate") {          
+  //   const options = {
+  //     optimisticData: [newState]
+  //   }
+  //   mutate(clientUpdate.mutateUrl, [newState], options)
+  // } 
+
+  // return response
+}
+
+// options: { taskId: string, newColumnId: string}
+// TODO: the typing is atrocious i need to figure it out
+export const sendRequest = async (key: string, taskId: string, newColumnId: string ) => {
+  // const { taskId, newColumnId } = arg.arg
+
   const response = await fetch(`/api/tasks/${taskId}/move`, {
     method: 'POST',
     credentials: 'same-origin',
@@ -22,29 +54,7 @@ export const moveTask = async (
     body: JSON.stringify({task_id: taskId, new_column_id: newColumnId})
   })
 
-  if(clientUpdate.type==="mutate") {          
-    const options = {
-      optimisticData: [newState]
-    }
-    mutate(clientUpdate.mutateUrl, [newState], options)
-  } 
-
   return response
-}
-
-// options: { taskId: string, newColumnId: string}
-// TODO: the typing is atrocious i need to figure it out
-export const sendRequest = async (key: string, arg: any ) => {
-  const { taskId, newColumnId } = arg.arg //
-
-  const response = fetch(`/api/tasks/${taskId}/move`, {
-    method: 'POST',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({task_id: taskId, new_column_id: newColumnId})
-  })
 }
 
 export const getOptimisticData = (currentState: FullBoard, control: FullBoard, newColumnId: string, taskId: string) => {
