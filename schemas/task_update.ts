@@ -20,4 +20,4 @@ export const taskUpdateSchema = z.object({
   subtasks: z.array(taskUpdateSubtasks)
 })
 
-type test = z.infer<typeof taskUpdateSchema>
+export type TaskUpdateType = z.infer<typeof taskUpdateSchema>

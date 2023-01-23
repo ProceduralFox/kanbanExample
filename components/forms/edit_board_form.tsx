@@ -8,6 +8,7 @@ import { StyledButtonPrimary, StyledButtonSecondary } from '../../styles/buttons
 import { updateBoard } from '../../functions/updateBoard'
 import { z } from 'zod'
 import { boardUpdateSchema } from '../../schemas/board_update'
+import { v4 } from 'uuid'
 
 type Props = {
   setHidden: Function,
@@ -46,7 +47,7 @@ const EditBoardForm = (props: Props) => {
   const handleColumnAdd = () => {
     const newColumns = [...columns]
 
-    newColumns.push({name: "", board_id: board.id})
+    newColumns.push({name: "", board_id: board.id, id: v4()})
 
     setColumns(newColumns)
   }
@@ -82,7 +83,7 @@ const EditBoardForm = (props: Props) => {
           </StyledFormScrollableSection>
           <StyledButtonSecondary darkMode={darkMode} onClick={(e)=>{e.preventDefault(); handleColumnAdd()}}>Add Column</StyledButtonSecondary>
         </StyledFormSection>
-        <StyledButtonPrimary onClick={(e)=>{e.preventDefault(); updateBoard({...board, columns: columns, name: name}, `/api/boards/${board.id}/`); setHidden(true)}}>Save Changes</StyledButtonPrimary>
+        <StyledButtonPrimary onClick={(e)=>{e.preventDefault(); updateBoard({...board, columns: columns, name: name}, {type: "mutate", mutateUrl:`/api/boards/${board.id}/`}); setHidden(true)}}>Save Changes</StyledButtonPrimary>
     </form>
 
 

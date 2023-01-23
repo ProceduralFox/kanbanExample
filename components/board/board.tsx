@@ -50,7 +50,7 @@ const BoardView = (props: Props) => {
   }
 
   const columnsSimplified = boardInfo.columns.map((col)=>{return {name: col.name, id: col.id}})
-  
+  console.log("board view renders")
   return (
     <StyledBoard darkMode={darkMode}>
         {

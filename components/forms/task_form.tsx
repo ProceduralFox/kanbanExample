@@ -51,8 +51,8 @@ const TaskForm = (props: Props) => {
         },
         subtasks:[...subtasks]
       }
-  
-      updateTask(updateBody, `/api/boards/${task.board_id}/`)
+
+      updateTask(updateBody, {type: "mutate", mutateUrl: `/api/boards/${task.board_id}/`})
     } else {
       if(!board_id) return null // TODO: add FE error handling with toastify here
 

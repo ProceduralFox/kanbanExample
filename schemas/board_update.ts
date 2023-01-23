@@ -4,7 +4,7 @@ import { z } from "zod";
 export const boardUpdateColumn = z.object({
   board_id: z.string(),
   name: z.string(),
-  id: z.string().optional(),
+  id: z.string(),
   toDelete: z.boolean().optional()
 })
 
@@ -14,4 +14,4 @@ export const boardUpdateSchema = z.object({
   columns: z.array(boardUpdateColumn)
 })
 
-type test = z.infer<typeof boardUpdateSchema>
+export type BoardUpdateType = z.infer<typeof boardUpdateSchema>
