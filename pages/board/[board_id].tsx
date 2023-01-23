@@ -20,6 +20,7 @@ import { config } from 'process'
 
 type Props = {
   serverBoards: {id: string, name:string}[]
+  serverUrl: string 
 }
 
 
@@ -30,6 +31,8 @@ const BoardDetail = (props: Props) => {
   const { board_id } = router.query;
 
   const size = useWindowSize();
+
+  console.log("server url is:", props.serverUrl)
 
   const {darkMode} = useContext(DarkModeContext)
 
@@ -73,15 +76,18 @@ export async function getServerSideProps( context:any ) {
   const { req, res } = context
   console.log(req.query, "#############")
 
-  // const res = await fetch(`http://localhost:3001/api/boards`)
   const supabase = createServerSupabaseClient<Database>({ req, res })
   
   let { data: example, error } = await supabase
   .from('boards')
   .select('name, id')
 
+  // const boardId = (req.url as string).slice(7) // the urls all look the same this is okay to do
+  console.log("req dot url is:", req.url)
+  console.log(req.query)
 
-  return { props: { serverBoards: example } }
+
+  return { props: { serverBoards: example, url: req.url } }
 }
 
 export default BoardDetail
