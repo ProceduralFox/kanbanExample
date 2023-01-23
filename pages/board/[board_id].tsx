@@ -16,44 +16,43 @@ import LogoBar from '../../components/logo_bar/logo_bar'
 import { useWindowSize } from '../../hooks/useWindowSize'
 import { createServerSupabaseClient,  } from '@supabase/auth-helpers-nextjs'
 import { Database } from '../../types/supabase'
-import { config } from 'process'
 
 type Props = {
   serverBoards: {id: string, name:string}[]
-  serverUrl: string 
+  serverFullBoard: FullBoard[]
 }
 
 
 const BoardDetail = (props: Props) => {
 
   const router = useRouter();
+  const { serverBoards, serverFullBoard} = props
 
   const { board_id } = router.query;
 
   const size = useWindowSize();
 
-  console.log("server url is:", props.serverUrl)
-
   const {darkMode} = useContext(DarkModeContext)
 
-  const {data: boardInfo, error, mutate} = useSWR<FullBoard[]>(`/api/boards/${board_id}/`, fetcher, )
-  console.log(error)
+  const {data: boardInfo, error, mutate} = useSWR<FullBoard[]>(`/api/boards/${board_id}/`, fetcher, {
+    fallbackData: serverFullBoard
+  } )
 
-  if(!boardInfo) return <H1 darkMode={darkMode}>Loading</H1>
+  // if(!boardInfo) return <H1 darkMode={darkMode}>Error occured</H1>
   if(typeof board_id !== "string") return  // technically safer than type assertion right?
   // TODO: row level policy for ALL tables as well
 
   console.log(boardInfo, "#############################")
 
-  const columnsSimplified = boardInfo[0].columns.map((col)=>{return {name: col.name, id: col.id}})
+  const columnsSimplified = boardInfo![0].columns.map((col)=>{return {name: col.name, id: col.id}})
 
   if(size.width && size.width<600 ){
     return <>
     <div style={{background: "hotpink", width: "100%", height: "10%", display: "flex"}}>
-      <TopBar initialBoards={props.serverBoards} board={boardInfo[0]} columns={columnsSimplified}></TopBar>
+      <TopBar initialBoards={serverBoards} board={boardInfo![0]} columns={columnsSimplified}></TopBar>
     </div>
     <div style={{display: "flex", height: "90%", width: "100%"}}>
-      <BoardView boardInfo={boardInfo[0]} boardId={board_id}></BoardView>
+      <BoardView boardInfo={boardInfo![0]} boardId={board_id}></BoardView>
     </div>
   </>
   }
@@ -62,32 +61,32 @@ const BoardDetail = (props: Props) => {
   <StyledLayout darkMode={darkMode}>
     <div style={{background: "hotpink", width: "100%", height: "10%", display: "flex"}}>
       <LogoBar></LogoBar>
-      <TopBar initialBoards={props.serverBoards} board={boardInfo[0]} columns={columnsSimplified}></TopBar>
+      <TopBar initialBoards={serverBoards} board={boardInfo![0]} columns={columnsSimplified}></TopBar>
     </div>
     <div style={{display: "flex", height: "90%", width: "100%"}}>
-      <Sidebar initialBoards={props.serverBoards}></Sidebar>
-      <BoardView boardInfo={boardInfo[0]} boardId={board_id}></BoardView>
+      <Sidebar initialBoards={serverBoards}></Sidebar>
+      <BoardView boardInfo={boardInfo![0]} boardId={board_id}></BoardView>
     </div>
   </StyledLayout>
   )
 }
 
 export async function getServerSideProps( context:any ) {
-  const { req, res } = context
-  console.log(req.query, "#############")
+  const { req, res, params } = context
 
   const supabase = createServerSupabaseClient<Database>({ req, res })
   
-  let { data: example, error } = await supabase
+  let { data: allBoards, error: boardsError } = await supabase
   .from('boards')
   .select('name, id')
 
-  // const boardId = (req.url as string).slice(7) // the urls all look the same this is okay to do
-  console.log("req dot url is:", req.url)
-  console.log(req.query)
+  let { data: fullBoard, error: fullBoardError } = await supabase
+  .from('boards')
+  .select('*, columns:board_columns(*,tasks:tasks(*, subtasks:subtasks(*)))')
+  .eq('id', params.board_id)
 
 
-  return { props: { serverBoards: example, serverUrl: req.url } }
+  return { props: { serverBoards: allBoards, serverFullBoard: fullBoard } }
 }
 
 export default BoardDetail
