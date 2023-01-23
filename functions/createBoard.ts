@@ -25,7 +25,7 @@ export const createBoard = async (
       const options = {
         optimisticData: (current:{name:string, id:string}[]) => getOptimisticData(current, {name: body.name, id: boardId} ),
         populateCache: false,
-        revalidate: true
+        revalidate: false
       }
       mutate(clientUpdate.mutateUrl, sendRequest(fullBody), options)
   
@@ -51,4 +51,6 @@ const getOptimisticData = (currentState: {name: string, id: string}[], newBoard:
   const newState = structuredClone(currentState)
 
   newState.push(newBoard)
+
+  return newState
 }
