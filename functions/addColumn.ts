@@ -1,22 +1,46 @@
 import { mutate } from "swr"
+import { ClientUpdate } from '../types/params'
+import { FullBoard } from '../types/responses'
+import { ColumnAddSchemaType } from "../schemas/column_add"
 
+export const addColumn = async (
+  body: ColumnAddSchemaType,
+  clientUpdate: ClientUpdate<FullBoard>) => {
 
-export const addColumn = async (board_id: string, name: string, mutateUrl: string ) => {
-  // TODO: move all these to separate files, add row level policy for adding columns only to own boards
+    if(clientUpdate.type==="state") {
+      const newState = getOptimisticData(clientUpdate.currentState, body)
+      clientUpdate.setState(newState)
+      sendRequest(body)
+    } 
+  
+    if(clientUpdate.type==="mutate") {          
+      const options = {
+        optimisticData: (current:FullBoard[]) => getOptimisticData(current[0], body),
+        populateCache: false,
+        revalidate: false
+      }
+      mutate(clientUpdate.mutateUrl, sendRequest({...body}), options)
+    } 
+  
+  return
+}
+
+const sendRequest = async (body: ColumnAddSchemaType) => {
   const response = await fetch(`/api/columns/add`, {
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    // mode: 'cors', // no-cors, *cors, same-origin
-    // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, *same-origin, omit
+    method: 'POST', 
+    credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json'
     },
-    // redirect: 'follow', // manual, *follow, error
-    // referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    body: JSON.stringify({name: name, board_id: board_id}) // body data type must match "Content-Type" header
+    body: JSON.stringify({body}) 
   })
+}
 
-  if(mutateUrl) await mutate(mutateUrl)
-  
-  return response
+const getOptimisticData = (currentData: FullBoard, body: ColumnAddSchemaType) => {
+
+  const newData = structuredClone(currentData)
+
+  newData.columns.push({...body, tasks: []})
+
+  return [newData]
 }

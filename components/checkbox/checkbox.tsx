@@ -7,6 +7,7 @@ import { completeSubtask } from '../../functions/completeSubtask'
 
 type Props = {
   subtask: Subtask
+  setSubtasks: Function
 }
 
 
@@ -18,8 +19,7 @@ const SubtaskCheckbox = (props: Props) => {
   const [completed, setCompleted] = useState(subtask.completed)
 
   const handleClick = () => {
-    setCompleted(!completed)
-    completeSubtask(subtask.id, {completed: !completed})
+    completeSubtask(subtask.id, !completed, {type:"state", currentState: completed, setState: setCompleted})
   }
 
   return <StyledSubtaskCheckboxWrapper onClick={()=>handleClick()} darkMode={darkMode}>

@@ -2,7 +2,7 @@ import { z } from "zod";
 
 
 export const taskUpdateSubtasks = z.object({
-  id: z.string().optional(),
+  id: z.string(),
   task_id: z.string(),
   name: z.string(),
   completed: z.boolean(),

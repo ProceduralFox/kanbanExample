@@ -24,12 +24,12 @@ const BoardsList = (props: Props) => {
 
   const [modalHidden, setModalHidden] = useState(true)
 
-  const {data: boards, mutate} = useSWR<FullBoard[]>('/api/boards', fetcher)
+  const {data: boards, mutate} = useSWR<{id: string, name:string}[]>('/api/boards/', fetcher)
 
   if(!boards) return <div>loading</div>
 
 
-  const getTruncatedTitle = (maxLen: number, board: FullBoard) => {
+  const getTruncatedTitle = (maxLen: number, board: {name: string, id:string}) => {
     if (board.name.length<maxLen) return <H3 darkMode={darkMode}>{board.name}</H3>
     
     return <H3 darkMode={darkMode} title={board.name}>{truncateString(board.name, maxLen, "...")}</H3>

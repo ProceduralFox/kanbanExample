@@ -30,11 +30,11 @@ const DeleteForm = (props: Props) => {
 
   const handleDelete = ()=> {
     if(type==="board") {
-      deleteBoard(id, "/api/boards")
+      deleteBoard(id, {type: "mutate", mutateUrl: "/api/boards/"})
       router.push("/")
       return
     }
-    deleteTask(id, `/api/boards/${props.boardId}/`)
+    deleteTask(id, {type:"mutate", mutateUrl:`/api/boards/${props.boardId}/`})
     setHidden()
   }
 
@@ -49,7 +49,7 @@ const DeleteForm = (props: Props) => {
       </StyledFormSection>
       <StyledFormButtonsSection>
         <StyledButtonDestructive width='45%' onClick={()=>{handleDelete()}}>Delete</StyledButtonDestructive>
-        <StyledButtonPrimary width='45%' onClick={()=>{setHidden()}}>Cancel</StyledButtonPrimary>
+        <StyledButtonPrimary width='45%' onClick={()=>{setHidden(true)}}>Cancel</StyledButtonPrimary>
       </StyledFormButtonsSection>
     </StyledFormWrapper>
   )

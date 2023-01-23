@@ -1,20 +1,31 @@
 import { z } from "zod"
-import { subtaskCompleteSchema } from "../schemas/subtask_complete"
 import { mutate } from "swr"
+import { ClientUpdate } from '../types/params'
+import { Subtask } from '../types/responses'
+
+export const completeSubtask = async (
+  subtask_id: string, 
+  completed: boolean,
+  clientUpdate: ClientUpdate<boolean> ) => {
+
+    if(clientUpdate.type==="state") {
+      const newState = !clientUpdate.currentState
+      clientUpdate.setState(newState)
+      sendRequest(subtask_id, completed)
+    } 
+  
+    if(clientUpdate.type==="mutate") {
+    } 
+}
 
 
-export const completeSubtask = async (subtask_id: string, body: z.infer<typeof subtaskCompleteSchema>, mutateUrl?: string ) => {
-  // TODO: move all these to separate files, add row level policy for adding columns only to own boards
+const sendRequest = async (subtask_id: string, completed:boolean)=>{
   const response = await fetch(`/api/subtasks/${subtask_id}/complete`, {
     method: 'POST',
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify({completed:completed})
   })
-
-  if(mutateUrl) await mutate(mutateUrl)
-  
-  return response
 }

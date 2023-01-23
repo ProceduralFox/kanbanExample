@@ -23,18 +23,18 @@ export default async function handler(
   
     let { data: boardData, error:boardError } = await supabase
     .from('boards')
-    .insert({name: body.name, owner: user.data.user?.id})
+    .insert({name: body.name, owner: user.data.user?.id, id: body.id})
     .select()
 
     if(boardError) return res.status(400).json({message: boardError, operation: "board insert"})
 
-    const columns = body.columns.map((name)=>{
-      return {name: name, board_id: boardData?boardData[0].id:""}
-    })
+    // const columns = body.columns.map((column)=>{
+    //   return {column: column.name, board_id: body.id, id: column.i}
+    // })
     
     let { data: colsData, error: colsError } = await supabase
     .from('board_columns')
-    .insert(columns)
+    .insert(body.columns)
 
     if(colsError) return res.status(400).json({message: colsError, operation: "columns insert"})
   

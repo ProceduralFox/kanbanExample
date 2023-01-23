@@ -8,6 +8,7 @@ import DotMenu from '../dot_menu/dot_menu'
 import { moveTask } from '../../functions/moveTask'
 import SubtaskCheckbox from '../checkbox/checkbox'
 
+
 type Props = {
   task: Task
   columns: {name: string, id: string}[]
@@ -22,8 +23,7 @@ const TaskDetail = (props: Props) => {
   const { darkMode } = useContext(DarkModeContext)
 
   const [selectedColumn, setSelectedColumn] = useState(task.column_id)
-
-  // TODO - sbutasks handling
+  const [subtasks, setSubtasks] = useState([...task.subtasks])
   
   return (
     <StyledFormWrapper darkMode={darkMode}>
@@ -37,8 +37,8 @@ const TaskDetail = (props: Props) => {
       <StyledFormSection>
         <PL>Subtasks</PL>
         {
-          task.subtasks.map((subtask)=>{
-            return <SubtaskCheckbox key={subtask.id} subtask={subtask}></SubtaskCheckbox>
+          subtasks.map((subtask)=>{
+            return <SubtaskCheckbox setSubtasks={setSubtasks} key={subtask.id} subtask={subtask}></SubtaskCheckbox>
           })
         }
       </StyledFormSection>
@@ -46,7 +46,10 @@ const TaskDetail = (props: Props) => {
         // moveTask(task.id, e.target.value)
       }
       <StyledFormSection>
-        <StyledSelect darkMode={darkMode} value={selectedColumn} onChange={(e)=>{setSelectedColumn(e.target.value);}}>
+        <StyledSelect darkMode={darkMode} value={selectedColumn} onChange={(e)=>{
+          setSelectedColumn(e.target.value); 
+          moveTask(task.id, e.target.value, { type: "mutate", mutateUrl: `/api/boards/${task.board_id}/`}) 
+          }}>
           {
             columns.map((column, index)=>{
               return (

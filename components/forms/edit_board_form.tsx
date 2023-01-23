@@ -5,7 +5,7 @@ import { H2 } from '../../styles/typography'
 import { StyledInput, StyledLabel } from '../../styles/form_elements'
 import Image from 'next/image'
 import { StyledButtonPrimary, StyledButtonSecondary } from '../../styles/buttons'
-import { updateBoard } from '../../functions/editBoard'
+import { updateBoard } from '../../functions/updateBoard'
 import { z } from 'zod'
 import { boardUpdateSchema } from '../../schemas/board_update'
 

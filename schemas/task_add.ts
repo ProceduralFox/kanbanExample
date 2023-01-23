@@ -6,6 +6,7 @@ export const taskAddSchema = z.object({
     name: z.string(),
     description: z.string(),
     board_id: z.string(),
+    id: z.string()
   }),
   subtasks: z.array(z.object({
     name: z.string(),

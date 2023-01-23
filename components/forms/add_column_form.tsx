@@ -6,6 +6,7 @@ import { StyledInput, StyledLabel } from '../../styles/form_elements'
 import { StyledButtonPrimary } from '../../styles/buttons'
 import { addColumn } from '../../functions/addColumn'
 import { mutate } from 'swr'
+import { v4 as uuidv4 } from 'uuid'
 
 type Props = {
   boardId: string,
@@ -18,13 +19,17 @@ const AddColumnForm = (props: Props) => {
   const { darkMode } = useContext(DarkModeContext);
   const { boardId, setHidden} = props
 
+  
+  
+  const [name, setName] = useState("")
+  
   const handleCreateColumn = () => {
-    addColumn(boardId, name, `api/boards/${boardId}`)
+    addColumn({board_id: boardId, name, id: uuidv4()}, { 
+      type:"mutate", 
+      mutateUrl: `/api/boards/${boardId}/`})
   }
 
-
-  const [name, setName] = useState("")
-
+  
   return (
     <StyledFormWrapper darkMode={darkMode}>
       <StyledFormSection>

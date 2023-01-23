@@ -1,7 +1,6 @@
 import { mutate } from "swr"
 import { ClientUpdate } from '../types/params'
 import { FullBoard } from "../types/responses"
-import cloneDeep from 'lodash/cloneDeep';
 
 
 export const moveTask = async (
@@ -9,44 +8,26 @@ export const moveTask = async (
   newColumnId: string, 
   clientUpdate: ClientUpdate<FullBoard>
   ) => {
-  const newState = getOptimisticData(clientUpdate.currentState, clientUpdate.currentState, newColumnId, taskId)
 
-  if(clientUpdate.type==="state") clientUpdate.setState(newState)
+
+  if(clientUpdate.type==="state") {
+    const newState = getOptimisticData(clientUpdate.currentState, newColumnId, taskId)
+    clientUpdate.setState(newState)
+    sendRequest(taskId, newColumnId)
+  } 
 
   if(clientUpdate.type==="mutate") {          
     const options = {
-      optimisticData: [newState],
+      optimisticData: (current:FullBoard[]) => getOptimisticData(current[0], newColumnId, taskId ),
       populateCache: false,
       revalidate: false
     }
-    mutate(clientUpdate.mutateUrl, sendRequest("", taskId, newColumnId), options)
+    mutate(clientUpdate.mutateUrl, sendRequest(taskId, newColumnId), options)
 
-    
   } 
-
-  // const response = await fetch(`/api/tasks/${taskId}/move`, {
-  //   method: 'POST',
-  //   credentials: 'same-origin',
-  //   headers: {
-  //     'Content-Type': 'application/json'
-  //   },
-  //   body: JSON.stringify({task_id: taskId, new_column_id: newColumnId})
-  // })
-
-  // if(clientUpdate.type==="mutate") {          
-  //   const options = {
-  //     optimisticData: [newState]
-  //   }
-  //   mutate(clientUpdate.mutateUrl, [newState], options)
-  // } 
-
-  // return response
 }
 
-// options: { taskId: string, newColumnId: string}
-// TODO: the typing is atrocious i need to figure it out
-export const sendRequest = async (key: string, taskId: string, newColumnId: string ) => {
-  // const { taskId, newColumnId } = arg.arg
+const sendRequest = async (taskId: string, newColumnId: string ) => {
 
   const response = await fetch(`/api/tasks/${taskId}/move`, {
     method: 'POST',
@@ -60,11 +41,13 @@ export const sendRequest = async (key: string, taskId: string, newColumnId: stri
   return response
 }
 
-export const getOptimisticData = (currentState: FullBoard, control: FullBoard, newColumnId: string, taskId: string) => {
+const getOptimisticData = (currentState: FullBoard, newColumnId: string, taskId: string) => {
   const newState = structuredClone(currentState); 
+  // const newState = currentState
   let newColumnIndex = 0
   let oldColumnIndex = 0
   let oldTaskIndex = 0
+
 
   // I think that for making this faster in an algo way I would need to change the structure of the data
   // which I think is not really worth it given that the sizes of these entities will never be such that the
@@ -92,5 +75,5 @@ export const getOptimisticData = (currentState: FullBoard, control: FullBoard, n
   newState.columns[newColumnIndex].tasks.push(movedTask)
 
 
-  return newState
+  return [newState]
 }

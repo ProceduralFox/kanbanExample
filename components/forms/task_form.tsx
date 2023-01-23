@@ -34,7 +34,7 @@ const TaskForm = (props: Props) => {
   const handleAddSubtask = () => {
     const newSubtasks = [...subtasks]
 
-    newSubtasks.push({name: "", completed: false, task_id: task?task.id:""})
+    newSubtasks.push({name: "", completed: false, task_id: task?task.id:"", id:uuidv4() })
 
     setSubtasks(newSubtasks)
   }
@@ -56,17 +56,25 @@ const TaskForm = (props: Props) => {
     } else {
       if(!board_id) return null // TODO: add FE error handling with toastify here
 
+      const taskId = uuidv4()
+
       const createBody = {
         task: {
           name: title,
           description: description,
           column_id: column,
-          board_id: board_id
+          board_id: board_id,
+          id: taskId
         },
-        subtasks:[...subtasks]
+        subtasks:subtasks.map((subtask)=>{
+          if(!subtask.id) subtask.id = uuidv4()
+          if(subtask.task_id==="") subtask.task_id = taskId
+
+          return subtask
+        })
       }
 
-      createTask(createBody, {type: "mutate", mutateUrl: `/api/boards/${board_id}/`, currentState: undefined})
+      createTask(createBody, {type: "mutate", mutateUrl: `/api/boards/${board_id}/`})
 
     }
 

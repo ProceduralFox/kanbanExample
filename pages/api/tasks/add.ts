@@ -5,9 +5,9 @@ import { taskMoveSchema } from '../../../schemas/task_move'
 import z from 'zod'
 import { taskAddSchema } from '../../../schemas/task_add'
 import { Database } from '../../../types/supabase'
+import { taskUpdateSchema } from '../../../schemas/task_update'
 
 type Data = any
-
 
 export default async function handler(
   req: NextApiRequest,
@@ -19,25 +19,26 @@ export default async function handler(
 
     taskAddSchema.parse(req.body)
 
-    const body: z.infer<typeof taskAddSchema> = req.body
+    const body: z.infer<typeof taskUpdateSchema> = req.body
 
     const { data: taskData, error: taskError } = await supabase
     .from('tasks')
     .insert(body.task)
-    .select()
+    .select('id')
 
     if(taskError) return res.status(400).json(taskError)
 
+    console.log(body, "####################################")
     if(taskData && body.subtasks){
-      const id = taskData[0].id
 
-      const subtasksToInsert: Database["public"]["Tables"]["subtasks"]["Insert"][] = body.subtasks?.map((subtask)=>{
-        return {
-          completed: false,
-          task_id: id,
-          name: subtask.name,
-        }
+      const subtasksToInsert: Database["public"]["Tables"]["subtasks"]["Insert"][] = []
+
+      body.subtasks.forEach((subtask)=>{
+        if(subtask.toDelete) return
+        subtasksToInsert.push(subtask)
       })
+
+      console.log(subtasksToInsert, "###############")
 
       const { data: subtaskData, error: subtaskError } = await supabase
       .from('subtasks')

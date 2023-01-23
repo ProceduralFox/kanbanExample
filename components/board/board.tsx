@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { FullBoard } from '../../types/responses'
 import { StyledBoard, StyledBoardColumn, StyledBoardColumnTitle } from './styles'
-import { moveTask, sendRequest, getOptimisticData } from '../../functions/moveTask'
+import { moveTask } from '../../functions/moveTask'
 import { addColumn } from '../../functions/addColumn'
 import Task from '../task/task'
 import Modal from '../modal/modal'
