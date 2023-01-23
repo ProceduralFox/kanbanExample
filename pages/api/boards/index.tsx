@@ -5,9 +5,6 @@ import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '../../../types/supabase'
 import { PostgrestError } from '@supabase/supabase-js';
 
-type Data = Database["public"]["Tables"]["boards"]["Row"] | null | PostgrestError
-
-// TODO TYPESCRIPT
 
 export default async function handler(
   req: NextApiRequest,

@@ -38,11 +38,9 @@ const BoardDetail = (props: Props) => {
     fallbackData: serverFullBoard
   } )
 
-  // if(!boardInfo) return <H1 darkMode={darkMode}>Error occured</H1>
+  if(error) return <H1 darkMode={darkMode}>Error occured</H1>
   if(typeof board_id !== "string") return  // technically safer than type assertion right?
-  // TODO: row level policy for ALL tables as well
 
-  console.log(boardInfo, "#############################")
 
   const columnsSimplified = boardInfo![0].columns.map((col)=>{return {name: col.name, id: col.id}})
 

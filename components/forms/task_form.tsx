@@ -54,7 +54,7 @@ const TaskForm = (props: Props) => {
 
       updateTask(updateBody, {type: "mutate", mutateUrl: `/api/boards/${task.board_id}/`})
     } else {
-      if(!board_id) return null // TODO: add FE error handling with toastify here
+      if(!board_id) return null
 
       const taskId = uuidv4()
 

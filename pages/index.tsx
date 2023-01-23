@@ -15,6 +15,12 @@ import { StyledHomepage } from '../components/layout/styles';
 import { H1 } from '../styles/typography';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '../types/supabase';
+import { useWindowSize } from '../hooks/useWindowSize';
+import TopBar from '../components/top_bar/top_bar';
+import BoardsList from '../components/boards_list/boards_list';
+import { StyledButtonPrimary } from '../styles/buttons';
+import AddBoardForm from '../components/forms/add_board_form';
+import ThemeButton from '../components/theme_button/theme_button';
 
 
 type Props = {
@@ -25,6 +31,12 @@ type Props = {
 const Home = (props: Props) => {
   const session = useSession()
   const supabase = useSupabaseClient()
+
+  const size = useWindowSize()
+  
+  const { serverBoards } = props
+
+  const [addBoardHidden, setAddBoardHidden] = useState(true)
 
   const { darkMode } = useContext(DarkModeContext)
 
@@ -42,9 +54,24 @@ const Home = (props: Props) => {
     )
   }
 
-  //TODO: home page on phone
-  
 
+  
+  if(size.width && size.width<600 ){
+    return <>
+    <div style={{background: "hotpink", width: "100%", height: "10%", display: "flex"}}>
+      <LogoBar></LogoBar>
+    </div>
+    <div style={{display: "flex", height: "90%", width: "100%", background: darkMode?DARK_GREY_2:WHITE}}>
+        <StyledHomepage darkMode={darkMode}>
+          <BoardsList initialBoards={serverBoards} ></BoardsList>
+          <ThemeButton></ThemeButton>
+        </StyledHomepage>
+      </div>
+  </>
+  }
+
+  
+  
   return (
     <>
       <div style={{background: darkMode?DARK_GREY_2:WHITE, width: "100%", height: "10%", display: "flex"}}>
@@ -53,7 +80,17 @@ const Home = (props: Props) => {
       <div style={{display: "flex", height: "90%", width: "100%", background: darkMode?DARK_GREY_2:WHITE}}>
         <Sidebar initialBoards={props.serverBoards}></Sidebar>
         <StyledHomepage darkMode={darkMode}>
-          <H1 darkMode={darkMode}>Select a board or create one from the sidebar to get started!</H1>
+          {
+            serverBoards.length === 0 ?
+            <>
+              <H1 darkMode={darkMode}>You have no boards. Create one to get started!</H1>
+              <StyledButtonPrimary onClick={()=>{setAddBoardHidden(false)}} >+ Create New Board</StyledButtonPrimary>
+              <Modal hidden={addBoardHidden} setHidden={setAddBoardHidden} ><AddBoardForm setHidden={setAddBoardHidden}></AddBoardForm></Modal>
+            </>
+
+            :
+            <H1 darkMode={darkMode}>Select a board or create a new one from the sidebar.</H1>
+          }
         </StyledHomepage>
       </div>
     </>

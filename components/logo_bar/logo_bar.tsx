@@ -16,8 +16,8 @@ const LogoBar = (props: Props) => {
 
   return (
   <StyledLogoBar darkMode={darkMode}>
-      <Image alt='main logo, three vertical lines of fading opacity' src={"/main_logo.svg"} height={15} width={15}></Image> 
-      <H1 darkMode={darkMode}>Kanban</H1>   
+      <Image alt='main logo, three vertical lines of fading opacity' src={"/main_logo.svg"} height={25} width={25}></Image> 
+      <H1 darkMode={darkMode}>kanban</H1>   
   </StyledLogoBar>
   )
 }

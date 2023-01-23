@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { DARK_GREY_1, GREY_1, PURPLE, WHITE } from "../../styles/colours";
+import { DARK_GREY_1, DARK_GREY_2, GREY_1, PURPLE, WHITE } from "../../styles/colours";
 
 
 
@@ -25,6 +25,12 @@ export const StyledThemeButtonWrapper = styled.div<{darkMode: boolean}>`
     display: flex;
     justify-content: space-between;
   }
+
+  @media (max-width: 600px) {
+    width: 80%;
+
+    background: ${props=>props.darkMode?DARK_GREY_2:WHITE};
+}
 
 `
 

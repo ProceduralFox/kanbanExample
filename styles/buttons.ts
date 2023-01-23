@@ -29,11 +29,15 @@ export const StyledButtonPrimary = styled(StyledButtonBase)<{isLarge?: boolean }
     ` : ``
   }
 
+  :disabled{
+    opacity: 0.5
+  }
+
   background: ${PURPLE};
 
   color: ${WHITE};
 
-  :hover{
+  :hover:not(:disabled){
     background: ${LIGHT_PURPLE};
   }
 

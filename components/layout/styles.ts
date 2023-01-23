@@ -14,8 +14,25 @@ export const StyledLayout = styled.main<{darkMode: boolean}>`
 `
 
 export const StyledHomepage = styled(StyledBoard)`
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
   color: ${props=>props.darkMode?WHITE:BLACK};
+
+  >button {
+    margin-top: 30px;
+    max-width: 300px;
+  }
+
+  @media (max-width: 600px) {
+    width: unset;
+    flex-grow: 1;
+    border-right: none;
+
+    align-items: start;
+    justify-content: start;
+
+}
 `

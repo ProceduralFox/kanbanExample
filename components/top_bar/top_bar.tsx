@@ -48,8 +48,6 @@ const TopBar = (props: Props) => {
     
     return <H1 darkMode={darkMode} title={board.name}>{truncateString(board.name, maxLen, "...")}</H1>
   }
-  
-  // TODO - bug with creating new task if no columns exists
 
   const dotOptions = [
     {display: "Edit Board", click: ()=>{setModalBoardHidden(false)}}, 
@@ -96,7 +94,7 @@ const TopBar = (props: Props) => {
         getTruncatedTitle(150)  
       }
         <StyledTopBarButtonsSections>
-          <StyledButtonPrimary onClick={()=>{setModalTaskHidden(false)}}>+ Add New Task</StyledButtonPrimary>
+          <StyledButtonPrimary disabled={columns.length===0} onClick={()=>{setModalTaskHidden(false)}}>+ Add New Task</StyledButtonPrimary>
           <DotMenu options={dotOptions}></DotMenu>
         </StyledTopBarButtonsSections>
 

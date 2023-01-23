@@ -28,7 +28,7 @@ export const StyledFormButtonsSection = styled(StyledFormSection)`
   justify-content: space-between;
   align-items: center;
 `
-// TODO - better naming for all, refactor these to less types
+
 export const StyledFormSubtaskWrapper = styled.div`
   display: flex;
 

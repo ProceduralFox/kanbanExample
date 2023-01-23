@@ -40,7 +40,6 @@ const BoardsList = (props: Props) => {
     return <H3 darkMode={darkMode} title={board.name}>{truncateString(board.name, maxLen, "...")}</H3>
   }
   
-  // TODO TRUNCATE MATHS BASED ON WIDTH =
   return (
     <>
     <StyledSidebarTitle darkMode={darkMode}>All Boards ({boards!.length})</StyledSidebarTitle>

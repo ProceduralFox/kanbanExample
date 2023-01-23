@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { FullBoard } from '../../types/responses'
-import { StyledBoard, StyledBoardColumn, StyledBoardColumnTitle } from './styles'
+import { StyledBoard, StyledBoardAddColumn, StyledBoardColumn, StyledBoardColumnTitle } from './styles'
 import { moveTask } from '../../functions/moveTask'
 import { addColumn } from '../../functions/addColumn'
 import Task from '../task/task'
@@ -8,6 +8,7 @@ import Modal from '../modal/modal'
 import AddColumnForm from '../forms/add_column_form'
 import { DarkModeContext } from '../../context/darkmode_context'
 import useSWRMutation from 'swr/mutation'
+import { H1 } from '../../styles/typography'
 
 
 
@@ -16,9 +17,6 @@ type Props = {
   boardId: string
   
 }
-
-
-
 const BoardView = (props: Props) => {
   const { boardInfo, boardId } = props
 
@@ -27,10 +25,6 @@ const BoardView = (props: Props) => {
 
   const [ modalHidden, setModalHidden ] = useState(true)
   const [boardState, setBoardState] = useState(boardInfo)
-
-  // useEffect(()=>{
-  //   setBoardState(boardInfo)
-  // }, [boardInfo])
 
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -42,15 +36,14 @@ const BoardView = (props: Props) => {
     e.preventDefault()
     const taskId = e.dataTransfer.getData("taskId")
 
-    // trigger({taskId: taskId, newColumnId: columnId}, {
-    //   optimisticData: current => [getOptimisticData(current![0] as FullBoard, boardState, taskId, columnId)]
-    // })
-    // moveTask(taskId, columnId, { type:"state", currentState: boardState, setState: setBoardState})
     moveTask(taskId, columnId, { type:"mutate", mutateUrl: `/api/boards/${props.boardId}/`, currentState: boardInfo})
   }
 
   const columnsSimplified = boardInfo.columns.map((col)=>{return {name: col.name, id: col.id}})
-  console.log("board view renders")
+
+
+  // TODO: dislay text and button when empty board
+
   return (
     <StyledBoard darkMode={darkMode}>
         {
@@ -72,8 +65,8 @@ const BoardView = (props: Props) => {
               </StyledBoardColumn>
             )
           })
-        }
-        <StyledBoardColumn center={true} onClick={(e)=>{setModalHidden(false)}}>+ Add Column</StyledBoardColumn>
+        } 
+        <StyledBoardAddColumn darkMode={darkMode} onClick={(e)=>{setModalHidden(false)}}><H1 darkMode={darkMode}>+ New Column</H1></StyledBoardAddColumn>
         <Modal hidden={modalHidden} setHidden={setModalHidden}><AddColumnForm setHidden={setModalHidden} boardId={boardId}></AddColumnForm></Modal>
     </StyledBoard>
   )

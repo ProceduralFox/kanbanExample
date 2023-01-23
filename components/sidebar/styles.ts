@@ -62,7 +62,7 @@ export const StyledSidebarBoardsWrapper = styled.ul`
 
 export const StyledSidebarBoard = styled.li<{create?: boolean, selected?:boolean}>`
   width: 100%;
-
+      
   display: grid;
   grid-template-rows: 1fr;
   grid-template-columns: 24px 16px 16px 1fr 1fr;
@@ -131,9 +131,9 @@ export const StyledSidebarHideButton = styled.button`
 
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: start;
 
-  width: 122px;
+  width: 100%;
 
   cursor: pointer;
 
@@ -158,6 +158,8 @@ export const StyledSidebarHideButton = styled.button`
   >img {
     filter: brightness(0) saturate(100%) invert(61%) sepia(17%) saturate(371%) hue-rotate(177deg) brightness(90%) contrast(88%);
     transition: all .2s ease-in;
+
+    margin-right: 5px;
   }
 
 `
