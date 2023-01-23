@@ -25,11 +25,13 @@ const BoardsList = (props: Props) => {
 
   const [modalHidden, setModalHidden] = useState(true)
 
+  console.log("initial boards from server are", props.initialBoards)
+
   const {data: boards, mutate} = useSWR<{id: string, name:string}[]>('/api/boards/', fetcher, {
     fallbackData: props.initialBoards
   })
 
-  if(!boards) return <div>loading</div>
+  // if(!boards) return <div>loading</div>
 
 
   const getTruncatedTitle = (maxLen: number, board: {name: string, id:string}) => {
@@ -41,9 +43,9 @@ const BoardsList = (props: Props) => {
   // TODO TRUNCATE MATHS BASED ON WIDTH =
   return (
     <>
-    <StyledSidebarTitle darkMode={darkMode}>All Boards ({boards.length})</StyledSidebarTitle>
+    <StyledSidebarTitle darkMode={darkMode}>All Boards ({boards!.length})</StyledSidebarTitle>
     <StyledBoardsList>
-      {boards.map((board)=>{
+      {boards!.map((board)=>{
         return (<StyledSidebarBoard key={board.id} selected={board.id===router.query.board_id}>
             <Image src={"/board_icon.svg"} alt="board icon" width={16} height={16}></Image>
             <Link scroll={false} href={`/board/${board.id}`} key={board.id}>{getTruncatedTitle(20, board)}</Link>

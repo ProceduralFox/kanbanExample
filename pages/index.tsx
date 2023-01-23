@@ -72,7 +72,7 @@ export async function getServerSideProps( context:any ) {
   .select('name, id')
 
 
-  return { props: { initialBoards: boards } }
+  return { props: { serverBoards: boards } }
 }
 
 export default Home
