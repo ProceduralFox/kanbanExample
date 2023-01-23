@@ -87,7 +87,7 @@ export async function getServerSideProps( context:any ) {
   console.log(req.query)
 
 
-  return { props: { serverBoards: example, url: req.url } }
+  return { props: { serverBoards: example, serverUrl: req.url } }
 }
 
 export default BoardDetail
