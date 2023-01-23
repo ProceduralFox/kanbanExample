@@ -14,6 +14,7 @@ import useSWR from 'swr'
 import truncateString from '../../functions/truncate_string'
 
 type Props = {
+  initialBoards: {id:string, name:string}[]
 }
 
 
@@ -24,7 +25,9 @@ const BoardsList = (props: Props) => {
 
   const [modalHidden, setModalHidden] = useState(true)
 
-  const {data: boards, mutate} = useSWR<{id: string, name:string}[]>('/api/boards/', fetcher)
+  const {data: boards, mutate} = useSWR<{id: string, name:string}[]>('/api/boards/', fetcher, {
+    fallbackData: props.initialBoards
+  })
 
   if(!boards) return <div>loading</div>
 

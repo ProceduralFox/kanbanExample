@@ -14,8 +14,9 @@ import AddBoardForm from '../forms/add_board_form'
 import ThemeButton from '../theme_button/theme_button'
 import BoardsList from '../boards_list/boards_list'
 
-type Props = {}
-
+type Props = {
+  initialBoards: {id: string, name:string}[]
+}
 
 
 const Sidebar = (props: Props) => {
@@ -42,7 +43,7 @@ const Sidebar = (props: Props) => {
     <>
       <StyledSidebar darkMode={darkMode}>
         <div style={{ width: "100%"}}>
-          <BoardsList></BoardsList>
+          <BoardsList initialBoards={props.initialBoards}></BoardsList>
         </div>
         <div style={{width: "100%", justifySelf: "center"}}>
           <ThemeButton></ThemeButton>
