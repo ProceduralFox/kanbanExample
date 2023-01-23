@@ -47,7 +47,7 @@ const BoardDetail = (props: Props) => {
   if(size.width && size.width<600 ){
     return <>
     <div style={{background: "hotpink", width: "100%", height: "10%", display: "flex"}}>
-      <TopBar board={boardInfo[0]} columns={columnsSimplified}></TopBar>
+      <TopBar initialBoards={props.serverBoards} board={boardInfo[0]} columns={columnsSimplified}></TopBar>
     </div>
     <div style={{display: "flex", height: "90%", width: "100%"}}>
       <BoardView boardInfo={boardInfo[0]} boardId={board_id}></BoardView>
@@ -59,7 +59,7 @@ const BoardDetail = (props: Props) => {
   <StyledLayout darkMode={darkMode}>
     <div style={{background: "hotpink", width: "100%", height: "10%", display: "flex"}}>
       <LogoBar></LogoBar>
-      <TopBar board={boardInfo[0]} columns={columnsSimplified}></TopBar>
+      <TopBar initialBoards={props.serverBoards} board={boardInfo[0]} columns={columnsSimplified}></TopBar>
     </div>
     <div style={{display: "flex", height: "90%", width: "100%"}}>
       <Sidebar initialBoards={props.serverBoards}></Sidebar>

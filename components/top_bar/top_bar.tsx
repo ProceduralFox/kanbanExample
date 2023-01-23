@@ -22,8 +22,7 @@ import truncateString from '../../functions/truncate_string'
 type Props = {
   board: FullBoard
   columns: {name: string, id: string}[]
-  
-
+  initialBoards: {id: string, name:string}[]
 }
 
 
@@ -72,7 +71,7 @@ const TopBar = (props: Props) => {
 
     <Modal hidden={modalBoardsListHidden} setHidden={setModalBoardsListHidden}>
       <StyledTopBarBoardsModal darkMode={darkMode}>
-        <BoardsList></BoardsList>
+        <BoardsList initialBoards={props.initialBoards}></BoardsList>
         <ThemeButton></ThemeButton>
       </StyledTopBarBoardsModal>
     </Modal>

@@ -42,6 +42,7 @@ const Home = (props: Props) => {
     )
   }
 
+  //TODO: home page on phone
   
 
   return (
