@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router'
+import { useRouter, Router } from 'next/router'
 import React, { useContext, useEffect, useState, Suspense } from 'react'
 import useSWR from 'swr'
 import { fetcher } from '../../swr/config'
@@ -20,7 +20,9 @@ import { Database } from '../../types/supabase'
 type Props = {
   serverBoards: {id: string, name:string}[]
   serverFullBoard: FullBoard[]
+  isPageLoading: boolean
 }
+
 
 
 
@@ -28,6 +30,22 @@ const BoardDetail = (props: Props) => {
 
   const router = useRouter();
   const { serverBoards, serverFullBoard} = props
+  const [ isLeavingPage, setIsLeavingPage ] = useState(false)
+
+  // useEffect(()=>{
+  //   const pageLeavingStart = () => {
+  //     setIsLeavingPage(true)
+  //     console.log("nani the heck")
+  //   }
+
+  //   router.events.on('beforeHistoryChange', pageLeavingStart)
+
+  //   return () => {
+  //     router.events.off('routeChangeStart', pageLeavingStart )
+  //   }
+  // }, [])
+
+
 
   const { board_id } = router.query;
 
@@ -48,6 +66,7 @@ const BoardDetail = (props: Props) => {
   if(error) return <H1 darkMode={darkMode}>Error occured</H1>
   if(typeof board_id !== "string") return  // technically safer than type assertion right?
 
+
   
   const columnsSimplified = boardInfo[0].columns.map((col)=>{return {name: col.name, id: col.id}})
 
@@ -57,7 +76,7 @@ const BoardDetail = (props: Props) => {
       <TopBar initialBoards={serverBoards} board={boardInfo![0]} columns={columnsSimplified}></TopBar>
     </div>
     <div style={{display: "flex", height: "90%", width: "100%"}}>
-      <BoardView boardInfo={boardInfo![0]} boardId={board_id}></BoardView>
+        <BoardView boardInfo={boardInfo![0]} boardId={board_id}></BoardView>
     </div>
   </>
   }
@@ -71,7 +90,9 @@ const BoardDetail = (props: Props) => {
     <div style={{display: "flex", height: "90%", width: "100%"}}>
       <Sidebar initialBoards={serverBoards}></Sidebar>
       <Suspense fallback={<div>loading</div>}>
-        <BoardView boardInfo={boardInfo[0]} boardId={board_id}></BoardView>
+        {
+          props.isPageLoading ? <div>loading</div> : <BoardView boardInfo={boardInfo![0]} boardId={board_id}></BoardView>
+        }
       </Suspense>
     </div>
   </StyledLayout>

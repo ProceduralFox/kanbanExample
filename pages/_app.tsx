@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { SessionContextProvider, Session, useSession } from '@supabase/auth-helpers-react'
 import { AppProps } from 'next/app'
@@ -8,8 +8,10 @@ import '../styles/globals.css'
 import { DarkModeContext } from '../context/darkmode_context'
 
 import { Plus_Jakarta_Sans } from '@next/font/google'
+import Router from 'next/router'
 
 const jakarta = Plus_Jakarta_Sans({subsets: ['latin']})
+
 
 function MyApp({
   Component,
@@ -22,6 +24,26 @@ function MyApp({
 
   const [darkMode, setDarkMode] = useState(true)
 
+  const [isPageLoading, setIsPageLoading] = useState(false)
+
+  useEffect(() => {
+    const routeEventStart = () => {
+      setIsPageLoading(true);
+    };
+    const routeEventEnd = () => {
+      setIsPageLoading(false);
+    };
+
+    Router.events.on('routeChangeStart', routeEventStart);
+    Router.events.on('routeChangeComplete', routeEventEnd);
+    Router.events.on('routeChangeError', routeEventEnd);
+    return () => {
+      Router.events.off('routeChangeStart', routeEventStart);
+      Router.events.off('routeChangeComplete', routeEventEnd);
+      Router.events.off('routeChangeError', routeEventEnd);
+    };
+  }, []);
+
 
   
   return (
@@ -29,7 +51,7 @@ function MyApp({
       {/* <Layout> */}
       <DarkModeContext.Provider value={{darkMode, setDarkMode}} >
         <StyledLayout darkMode={darkMode} className={jakarta.className}>
-          <Component {...pageProps} />
+          <Component {...pageProps} isPageLoading={isPageLoading} />
         </StyledLayout>
       </DarkModeContext.Provider>
       {/* </Layout> */}
