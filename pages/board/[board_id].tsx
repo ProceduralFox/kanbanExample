@@ -41,7 +41,7 @@ const BoardDetail = (props: Props) => {
   console.log("data is:", boardInfo)
   console.log("fallbakc is:", serverFullBoard)
 
-  if(serverFullBoard.length===0) return <H1 darkMode={true}>You don't have access to this board</H1>
+  if(serverFullBoard.length===0) return <H1 darkMode={true}>You don`&apos;`t have access to this board</H1>
 
   if(!boardInfo || !serverFullBoard) return <div>...loading</div>
   if(error) return <H1 darkMode={darkMode}>Error occured</H1>
