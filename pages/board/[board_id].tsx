@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, Suspense } from 'react'
 import useSWR from 'swr'
 import { fetcher } from '../../swr/config'
 import { moveTask } from '../../functions/moveTask'
@@ -23,6 +23,7 @@ type Props = {
 }
 
 
+
 const BoardDetail = (props: Props) => {
 
   const router = useRouter();
@@ -41,7 +42,7 @@ const BoardDetail = (props: Props) => {
   console.log("data is:", boardInfo)
   console.log("fallbakc is:", serverFullBoard)
 
-  if(serverFullBoard.length===0) return <H1 darkMode={true}>You don`&apos;`t have access to this board</H1>
+  if(serverFullBoard.length===0) return <H1 darkMode={true}>You don&apos;t have access to this board</H1>
 
   if(!boardInfo || !serverFullBoard) return <div>...loading</div>
   if(error) return <H1 darkMode={darkMode}>Error occured</H1>
@@ -69,7 +70,9 @@ const BoardDetail = (props: Props) => {
     </div>
     <div style={{display: "flex", height: "90%", width: "100%"}}>
       <Sidebar initialBoards={serverBoards}></Sidebar>
-      <BoardView boardInfo={boardInfo[0]} boardId={board_id}></BoardView>
+      <Suspense fallback={<div>loading</div>}>
+        <BoardView boardInfo={boardInfo[0]} boardId={board_id}></BoardView>
+      </Suspense>
     </div>
   </StyledLayout>
   )
