@@ -16,6 +16,8 @@ import LogoBar from '../../components/logo_bar/logo_bar'
 import { useWindowSize } from '../../hooks/useWindowSize'
 import { createServerSupabaseClient,  } from '@supabase/auth-helpers-nextjs'
 import { Database } from '../../types/supabase'
+import { ProgressBar } from 'react-loader-spinner'
+import { BLACK, PURPLE, WHITE } from '../../styles/colours'
 
 type Props = {
   serverBoards: {id: string, name:string}[]
@@ -24,33 +26,15 @@ type Props = {
 }
 
 
-
-
 const BoardDetail = (props: Props) => {
 
   const router = useRouter();
   const { serverBoards, serverFullBoard} = props
-  const [ isLeavingPage, setIsLeavingPage ] = useState(false)
-
-  // useEffect(()=>{
-  //   const pageLeavingStart = () => {
-  //     setIsLeavingPage(true)
-  //     console.log("nani the heck")
-  //   }
-
-  //   router.events.on('beforeHistoryChange', pageLeavingStart)
-
-  //   return () => {
-  //     router.events.off('routeChangeStart', pageLeavingStart )
-  //   }
-  // }, [])
-
 
 
   const { board_id } = router.query;
 
   const size = useWindowSize();
-  console.log("?")
 
   const {darkMode} = useContext(DarkModeContext)
 
@@ -80,6 +64,8 @@ const BoardDetail = (props: Props) => {
     </div>
   </>
   }
+
+  
   
   return (
   <StyledLayout darkMode={darkMode}>
@@ -89,11 +75,19 @@ const BoardDetail = (props: Props) => {
     </div>
     <div style={{display: "flex", height: "90%", width: "100%"}}>
       <Sidebar initialBoards={serverBoards}></Sidebar>
-      <Suspense fallback={<div>loading</div>}>
         {
-          props.isPageLoading ? <div>loading</div> : <BoardView boardInfo={boardInfo![0]} boardId={board_id}></BoardView>
+          props.isPageLoading ? 
+          <div>
+            <ProgressBar
+              height="80"
+              width="80"
+              borderColor={PURPLE}
+              barColor={darkMode?WHITE:BLACK}
+            />
+            </div> 
+            : 
+          <BoardView boardInfo={boardInfo![0]} boardId={board_id}></BoardView>
         }
-      </Suspense>
     </div>
   </StyledLayout>
   )

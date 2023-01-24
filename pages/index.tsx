@@ -62,11 +62,11 @@ const Home = (props: Props) => {
       <LogoBar></LogoBar>
     </div>
     <div style={{display: "flex", height: "90%", width: "100%", background: darkMode?DARK_GREY_2:WHITE}}>
-        <StyledHomepage darkMode={darkMode}>
-          <BoardsList initialBoards={serverBoards} ></BoardsList>
-          <ThemeButton></ThemeButton>
-        </StyledHomepage>
-      </div>
+      <StyledHomepage darkMode={darkMode}>
+        <BoardsList initialBoards={serverBoards} ></BoardsList>
+        <ThemeButton></ThemeButton>
+      </StyledHomepage>
+    </div>
   </>
   }
 
