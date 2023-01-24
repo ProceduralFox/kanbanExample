@@ -41,11 +41,12 @@ export const StyledTopBarButtonsSections = styled.div`
     width: min(250px, 50%);
 
     @media (max-width: 600px) {
-      width: 20%;
+      width: 30%;
       >button {
         width: 48px;
         height: 32px;
         border-radius: 24px;
+
       }
   }
 

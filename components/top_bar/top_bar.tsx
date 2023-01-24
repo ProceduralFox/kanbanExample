@@ -62,7 +62,7 @@ const TopBar = (props: Props) => {
         {getTruncatedTitle(10)}
       </StyledTopBarMobileLogo>
       <StyledTopBarButtonsSections>
-        <StyledButtonPrimary onClick={()=>{setModalTaskHidden(false)}}>+</StyledButtonPrimary>
+        <StyledButtonPrimary disabled={columns.length===0} onClick={()=>{setModalTaskHidden(false)}}>+</StyledButtonPrimary>
         <DotMenu options={dotOptions}></DotMenu>
       </StyledTopBarButtonsSections>
     </StyledTopBar>

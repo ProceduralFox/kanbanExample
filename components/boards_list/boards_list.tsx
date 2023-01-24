@@ -25,7 +25,7 @@ const BoardsList = (props: Props) => {
 
   const [modalHidden, setModalHidden] = useState(true)
 
-  console.log("initial boards from server are", props.initialBoards)
+
 
   const {data: boards, mutate} = useSWR<{id: string, name:string}[]>('/api/boards/', fetcher, {
     fallbackData: props.initialBoards

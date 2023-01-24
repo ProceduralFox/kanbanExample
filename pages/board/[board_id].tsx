@@ -31,18 +31,24 @@ const BoardDetail = (props: Props) => {
   const { board_id } = router.query;
 
   const size = useWindowSize();
+  console.log("?")
 
   const {darkMode} = useContext(DarkModeContext)
 
   const {data: boardInfo, error, mutate} = useSWR<FullBoard[]>(`/api/boards/${board_id}/`, fetcher, {
     fallbackData: serverFullBoard
   } )
+  console.log("data is:", boardInfo)
+  console.log("fallbakc is:", serverFullBoard)
 
+  if(serverFullBoard.length===0) return <H1 darkMode={true}>You don't have access to this board</H1>
+
+  if(!boardInfo || !serverFullBoard) return <div>...loading</div>
   if(error) return <H1 darkMode={darkMode}>Error occured</H1>
   if(typeof board_id !== "string") return  // technically safer than type assertion right?
 
-
-  const columnsSimplified = boardInfo![0].columns.map((col)=>{return {name: col.name, id: col.id}})
+  
+  const columnsSimplified = boardInfo[0].columns.map((col)=>{return {name: col.name, id: col.id}})
 
   if(size.width && size.width<600 ){
     return <>
@@ -59,11 +65,11 @@ const BoardDetail = (props: Props) => {
   <StyledLayout darkMode={darkMode}>
     <div style={{background: "hotpink", width: "100%", height: "10%", display: "flex"}}>
       <LogoBar></LogoBar>
-      <TopBar initialBoards={serverBoards} board={boardInfo![0]} columns={columnsSimplified}></TopBar>
+      <TopBar initialBoards={serverBoards} board={boardInfo[0]} columns={columnsSimplified}></TopBar>
     </div>
     <div style={{display: "flex", height: "90%", width: "100%"}}>
       <Sidebar initialBoards={serverBoards}></Sidebar>
-      <BoardView boardInfo={boardInfo![0]} boardId={board_id}></BoardView>
+      <BoardView boardInfo={boardInfo[0]} boardId={board_id}></BoardView>
     </div>
   </StyledLayout>
   )

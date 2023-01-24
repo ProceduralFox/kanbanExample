@@ -80,3 +80,24 @@ export const StyledBoardColumnTitle = styled(H4)<{isEven: number}>`
     background: ${props=>props.isEven?PURPLE:CYAN};
   }
 `
+
+export const StyledBoardNoColumns = styled.div`
+  width: 100%;
+  margin: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+/* 
+  background: hotpink; */
+
+  >h2{
+    margin-bottom: 32px
+  }
+
+  >button{
+    width: 174px;
+    margin: auto;
+  }
+`
