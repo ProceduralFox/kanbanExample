@@ -5,7 +5,7 @@ import { DARK_GREY_1, DARK_GREY_2, GREY_1, PURPLE, WHITE } from "../../styles/co
 
 export const StyledThemeButtonWrapper = styled.div<{darkMode: boolean}>`
   height: 48px;
-
+  max-width: 250px;
 
   border-radius: 6px;
   margin-left: 24px;
@@ -16,6 +16,7 @@ export const StyledThemeButtonWrapper = styled.div<{darkMode: boolean}>`
 
   background: ${props=>props.darkMode?DARK_GREY_1:GREY_1};
 
+  
   display: flex;
   align-items: center;
   justify-content: center;

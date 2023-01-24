@@ -5,8 +5,8 @@ import Modal from '../components/modal/modal';
 import Sidebar from '../components/sidebar/sidebar_component';
 import LogoBar from '../components/logo_bar/logo_bar';
 import { DarkModeContext } from '../context/darkmode_context';
-import { DARK_GREY_2, WHITE } from '../styles/colours';
-import { StyledHomepage } from '../components/layout/styles';
+import { DARK_GREY_2, PURPLE, WHITE } from '../styles/colours';
+import { StyledHomepage, StyledLoginPage } from '../components/layout/styles';
 import { H1 } from '../styles/typography';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '../types/supabase';
@@ -16,7 +16,7 @@ import { StyledButtonPrimary } from '../styles/buttons';
 import AddBoardForm from '../components/forms/add_board_form';
 import ThemeButton from '../components/theme_button/theme_button';
 import ProgressLoading from '../components/progress_suspense/progress_loading';
-
+import Image from 'next/image';
 
 type Props = {
   serverBoards: {id: string, name:string}[],
@@ -38,15 +38,21 @@ const Home = (props: Props) => {
 
   if (!session) {
     return (
-      <div className="container">
+      <>
+      <StyledLoginPage darkMode={darkMode}>
+          <H1 darkMode={darkMode} style={{borderBottom: `5px dotted ${PURPLE}`}}>kanban</H1>   
         <Auth 
           supabaseClient={supabase} 
           appearance={{ theme: ThemeSupa }} 
           theme="dark" 
-          providers={['github', 'google', 'twitter', 'discord', 'slack', 'linkedin']}
+          providers={['github', 'google']}
           socialLayout='horizontal'
         />
-      </div>
+
+      </StyledLoginPage>
+      </>
+
+
     )
   }
   

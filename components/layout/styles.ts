@@ -36,3 +36,15 @@ export const StyledHomepage = styled(StyledBoard)`
 
 }
 `
+
+export const StyledLoginPage = styled.div<{darkMode:boolean}>`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  color: ${props=>props.darkMode?WHITE:BLACK};
+
+  width: 100%;
+  height: 100%
+`
