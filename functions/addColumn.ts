@@ -1,6 +1,6 @@
 import { mutate } from "swr"
 import { ClientUpdate } from '../types/params'
-import { FullBoard } from '../types/responses'
+import { FullBoard } from '../types/entities'
 import { ColumnAddSchemaType } from "../schemas/column_add"
 
 export const addColumn = async (

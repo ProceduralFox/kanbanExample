@@ -1,7 +1,7 @@
 import { z } from "zod"
 import { mutate } from "swr"
 import { ClientUpdate } from '../types/params'
-import { Subtask } from '../types/responses'
+import { Subtask } from '../types/entities'
 
 export const completeSubtask = async (
   subtask_id: string, 

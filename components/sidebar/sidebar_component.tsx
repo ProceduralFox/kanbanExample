@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react'
 
 import { fetcher } from '../../swr/config'
 import Link from 'next/link'
-import { FullBoard } from '../../types/responses'
+import { FullBoard } from '../../types/entities'
 import { StyledSidebar, StyledSidebarBoard, StyledSidebarBoardsWrapper, StyledSidebarHidden, StyledSidebarHideButton, StyledSidebarTitle } from './styles'
 import Image from 'next/image'
 import { H3, H4 } from '../../styles/typography'

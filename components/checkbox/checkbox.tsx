@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { StyledSubtaskCheckboxText, StyledSubtaskCheckboxWrapper, StyledVisibleCheckbox } from './styles'
 import { DarkModeContext } from '../../context/darkmode_context'
 import Image from 'next/image'
-import { Subtask} from '../../types/responses'
+import { Subtask} from '../../types/entities'
 import { completeSubtask } from '../../functions/completeSubtask'
 
 type Props = {

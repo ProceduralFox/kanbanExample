@@ -2,7 +2,7 @@ import { z } from "zod"
 import { boardUpdateSchema, BoardUpdateType } from "../schemas/board_update"
 import { mutate } from "swr"
 import { ClientUpdate } from "../types/params"
-import { FullBoard, Column  } from "../types/responses"
+import { FullBoard, Column  } from "../types/entities"
 import { v4 } from "uuid"
 
 export const updateBoard = async (

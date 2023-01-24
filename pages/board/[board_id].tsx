@@ -1,23 +1,19 @@
-import { useRouter, Router } from 'next/router'
-import React, { useContext, useEffect, useState, Suspense } from 'react'
+import { useRouter } from 'next/router'
+import React, { useContext } from 'react'
 import useSWR from 'swr'
 import { fetcher } from '../../swr/config'
-import { moveTask } from '../../functions/moveTask'
-import { addColumn } from '../../functions/addColumn'
-import { FullBoard } from '../../types/responses'
+import { FullBoard } from '../../types/entities'
 import BoardView from '../../components/board/board'
 import { StyledLayout } from '../../components/layout/styles'
 import Sidebar from '../../components/sidebar/sidebar_component'
 import TopBar from '../../components/top_bar/top_bar'
-import Image from 'next/image'
 import { H1 } from '../../styles/typography'
 import { DarkModeContext } from '../../context/darkmode_context'
 import LogoBar from '../../components/logo_bar/logo_bar'
 import { useWindowSize } from '../../hooks/useWindowSize'
 import { createServerSupabaseClient,  } from '@supabase/auth-helpers-nextjs'
 import { Database } from '../../types/supabase'
-import { ProgressBar } from 'react-loader-spinner'
-import { BLACK, PURPLE, WHITE } from '../../styles/colours'
+import ProgressLoading from '../../components/progress_suspense/progress_loading'
 
 type Props = {
   serverBoards: {id: string, name:string}[]
@@ -29,8 +25,7 @@ type Props = {
 const BoardDetail = (props: Props) => {
 
   const router = useRouter();
-  const { serverBoards, serverFullBoard} = props
-
+  const { serverBoards, serverFullBoard, isPageLoading} = props
 
   const { board_id } = router.query;
 
@@ -41,8 +36,6 @@ const BoardDetail = (props: Props) => {
   const {data: boardInfo, error, mutate} = useSWR<FullBoard[]>(`/api/boards/${board_id}/`, fetcher, {
     fallbackData: serverFullBoard
   } )
-  console.log("data is:", boardInfo)
-  console.log("fallbakc is:", serverFullBoard)
 
   if(serverFullBoard.length===0) return <H1 darkMode={true}>You don&apos;t have access to this board</H1>
 
@@ -60,7 +53,9 @@ const BoardDetail = (props: Props) => {
       <TopBar initialBoards={serverBoards} board={boardInfo![0]} columns={columnsSimplified}></TopBar>
     </div>
     <div style={{display: "flex", height: "90%", width: "100%"}}>
-        <BoardView boardInfo={boardInfo![0]} boardId={board_id}></BoardView>
+      <ProgressLoading isLoading={isPageLoading}>
+        <BoardView boardInfo={boardInfo[0]} boardId={board_id}></BoardView>
+      </ProgressLoading>
     </div>
   </>
   }
@@ -75,19 +70,9 @@ const BoardDetail = (props: Props) => {
     </div>
     <div style={{display: "flex", height: "90%", width: "100%"}}>
       <Sidebar initialBoards={serverBoards}></Sidebar>
-        {
-          props.isPageLoading ? 
-          <div>
-            <ProgressBar
-              height="80"
-              width="80"
-              borderColor={PURPLE}
-              barColor={darkMode?WHITE:BLACK}
-            />
-            </div> 
-            : 
-          <BoardView boardInfo={boardInfo![0]} boardId={board_id}></BoardView>
-        }
+      <ProgressLoading isLoading={isPageLoading}>
+        <BoardView boardInfo={boardInfo[0]} boardId={board_id}></BoardView>
+      </ProgressLoading>
     </div>
   </StyledLayout>
   )

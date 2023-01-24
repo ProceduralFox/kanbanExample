@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Task, Subtask } from '../../types/responses'
+import { Task, Subtask } from '../../types/entities'
 import { taskUpdateSubtasks } from '../../schemas/task_update'
 import { z } from 'zod'
 import { StyledButtonPrimary, StyledButtonSecondary } from '../../styles/buttons'

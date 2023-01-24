@@ -2,7 +2,7 @@ import z from 'zod'
 import { taskAddSchema } from '../schemas/task_add'
 import { mutate } from 'swr'
 import { ClientUpdate } from '../types/params'
-import { FullBoard, Task } from '../types/responses'
+import { FullBoard, Task } from '../types/entities'
 import { v4 } from 'uuid';
 import { taskUpdateSchema } from '../schemas/task_update'
 

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Task, Subtask } from '../../types/responses'
+import { Task, Subtask } from '../../types/entities'
 import { StyledTask } from './styles'
 import Modal from '../modal/modal'
 import TaskForm from '../forms/task_form'

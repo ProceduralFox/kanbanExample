@@ -28,7 +28,6 @@ export default async function handler(
 
     if(taskError) return res.status(400).json(taskError)
 
-    console.log(body, "####################################")
     if(taskData && body.subtasks){
 
       const subtasksToInsert: Database["public"]["Tables"]["subtasks"]["Insert"][] = []
@@ -38,7 +37,6 @@ export default async function handler(
         subtasksToInsert.push(subtask)
       })
 
-      console.log(subtasksToInsert, "###############")
 
       const { data: subtaskData, error: subtaskError } = await supabase
       .from('subtasks')

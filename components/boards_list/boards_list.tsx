@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react'
-import { FullBoard } from '../../types/responses'
 import { StyledSidebarBoard, StyledSidebarTitle } from '../sidebar/styles'
 import { StyledBoardsList } from './styles'
 import Image from 'next/image'
@@ -13,6 +12,7 @@ import { fetcher } from '../../swr/config'
 import useSWR from 'swr'
 import truncateString from '../../functions/truncate_string'
 
+
 type Props = {
   initialBoards: {id:string, name:string}[]
 }
@@ -25,13 +25,11 @@ const BoardsList = (props: Props) => {
 
   const [modalHidden, setModalHidden] = useState(true)
 
-
-
   const {data: boards, mutate} = useSWR<{id: string, name:string}[]>('/api/boards/', fetcher, {
     fallbackData: props.initialBoards
   })
 
-  // if(!boards) return <div>loading</div>
+  if(!boards) return null
 
 
   const getTruncatedTitle = (maxLen: number, board: {name: string, id:string}) => {
@@ -39,6 +37,8 @@ const BoardsList = (props: Props) => {
     
     return <H3 darkMode={darkMode} title={board.name}>{truncateString(board.name, maxLen, "...")}</H3>
   }
+
+  
   
   return (
     <>

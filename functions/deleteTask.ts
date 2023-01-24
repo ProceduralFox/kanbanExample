@@ -1,6 +1,6 @@
 import { mutate } from "swr"
 import { ClientUpdate } from '../types/params'
-import { FullBoard } from "../types/responses"
+import { FullBoard } from "../types/entities"
 
 export const deleteTask = async (
   taskId: string, 

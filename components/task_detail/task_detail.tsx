@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { H2, PL } from '../../styles/typography'
 import { DarkModeContext } from '../../context/darkmode_context'
-import { Task, Column } from '../../types/responses'
+import { Task, Column } from '../../types/entities'
 import { StyledFormButtonsSection, StyledFormSection, StyledFormWrapper } from '../forms/styles'
 import { StyledSelect } from '../../styles/form_elements'
 import DotMenu from '../dot_menu/dot_menu'

@@ -2,7 +2,7 @@ import z from 'zod'
 import { taskUpdateSchema, TaskUpdateType } from '../schemas/task_update'
 import { mutate } from 'swr'
 import { ClientUpdate } from '../types/params'
-import { FullBoard, Task } from '../types/responses'
+import { FullBoard, Task } from '../types/entities'
 
 export const updateTask = async (
   body: TaskUpdateType, 
@@ -66,11 +66,9 @@ const getOptimisticData = (currentState: FullBoard, updatedTask: TaskUpdateType)
   }
 
 
-  const movedTask = newState.columns[oldColumnIndex].tasks.splice(oldTaskIndex,1)[0]
+  newState.columns[oldColumnIndex].tasks.splice(oldTaskIndex,1)[0]
 
   newState.columns[newColumnIndex].tasks.push(newTask)
-
-  console.log(newState,"####################~")
 
   return [newState]
   

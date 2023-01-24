@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { FullBoard } from '../../types/responses'
+import { FullBoard } from '../../types/entities'
 import { StyledBoard, StyledBoardAddColumn, StyledBoardColumn, StyledBoardColumnTitle, StyledBoardNoColumns } from './styles'
 import { moveTask } from '../../functions/moveTask'
 import { addColumn } from '../../functions/addColumn'
