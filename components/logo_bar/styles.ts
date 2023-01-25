@@ -29,5 +29,9 @@ export const StyledLogoBar = styled.div<{darkMode: boolean}>`
 
     justify-content: center;
 }
+
+  @media (min-width: 1200px) {
+    width: 300px;
+  }
   
 `

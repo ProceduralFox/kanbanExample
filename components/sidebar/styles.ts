@@ -22,6 +22,10 @@ export const StyledSidebar = styled.div<{darkMode: boolean}>`
 
   border-right: 1px solid ${props=>props.darkMode?DARK_GREY_3:GREY_2};
 
+  @media (min-width: 1200px) {
+    width: 300px;
+  }
+
 `
 
 export const StyledSidebarHidden = styled.div`

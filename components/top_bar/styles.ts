@@ -25,6 +25,10 @@ export const StyledTopBar = styled.div<{darkMode: boolean}>`
     width: 100%;
   }
 
+  @media (min-width: 1200px) {
+    width: calc(100% - 300px);
+  }
+
 `
 
 export const StyledTopBarButtonsSections = styled.div`

@@ -64,7 +64,7 @@ const BoardDetail = (props: Props) => {
   
   return (
   <StyledLayout darkMode={darkMode}>
-    <div style={{background: "hotpink", width: "100%", height: "10%", display: "flex"}}>
+    <div style={{width: "100%", height: "10%", display: "flex"}}>
       <LogoBar></LogoBar>
       <TopBar initialBoards={serverBoards} board={boardInfo[0]} columns={columnsSimplified}></TopBar>
     </div>

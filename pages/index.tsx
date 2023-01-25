@@ -58,7 +58,7 @@ const Home = (props: Props) => {
   
   if(size.width && size.width<600 ){
     return <>
-    <div style={{background: "hotpink", width: "100%", height: "10%", display: "flex"}}>
+    <div style={{width: "100%", height: "10%", display: "flex"}}>
       <LogoBar></LogoBar>
     </div>
     <div style={{display: "flex", height: "90%", width: "100%", background: darkMode?DARK_GREY_2:WHITE}}>

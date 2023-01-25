@@ -9,6 +9,7 @@ import { DarkModeContext } from '../context/darkmode_context'
 
 import { Plus_Jakarta_Sans } from '@next/font/google'
 import Router from 'next/router'
+import Head from 'next/head'
 
 const jakarta = Plus_Jakarta_Sans({subsets: ['latin']})
 
@@ -44,9 +45,14 @@ function MyApp({
     };
   }, []);
 
-
   
   return (
+    <>
+    <Head>
+      <title>Kanban Example</title>
+      <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+      <link rel="icon" type="image/png" href="/favicon.png"/>
+    </Head>
     <SessionContextProvider supabaseClient={supabase} initialSession={pageProps.initialSession}>
       {/* <Layout> */}
       <DarkModeContext.Provider value={{darkMode, setDarkMode}} >
@@ -56,6 +62,7 @@ function MyApp({
       </DarkModeContext.Provider>
       {/* </Layout> */}
     </SessionContextProvider>
+    </>
   )
 }
 export default MyApp
