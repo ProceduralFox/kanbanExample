@@ -28,12 +28,12 @@ I think I'm generally pretty strict with using typescript, but I also believe th
 
 ## other libraries
 
-# zod 
+### zod 
 I was sold at 'generate type from schema', genius feature
 
-# swr
+### swr
 who needs state when I have a cache :p
 
-# react-loader-spinner
+### react-loader-spinner
 I'll build a checkbox from scratch but at a certain point not using the react ecosystem feels like a crime
 
