@@ -23,7 +23,7 @@ const LogoBar = (props: Props) => {
       <H1 darkMode={darkMode}>kanban</H1>
       {
         session?.user ?
-          <StyledSignOut onClick={()=>{supabase.auth.signOut(); router.reload(); mutate("/api/boards/")}}>
+          <StyledSignOut onClick={async ()=>{await supabase.auth.signOut(); router.reload(); mutate("/api/boards/")}}>
             <Image src={"/sign-out-alt-solid.svg"} alt='sign out' height={18} width={16}></Image>
             {/* <H3>Sign Out</H3> */}
           </StyledSignOut>
