@@ -22,13 +22,13 @@ const LogoBar = (props: Props) => {
       <Image alt='main logo, three vertical lines of fading opacity' src={"/main_logo.svg"} height={25} width={25}></Image> 
       <H1 darkMode={darkMode}>kanban</H1>
       {
-        session?.user ?
-          <StyledSignOut onClick={async ()=>{await supabase.auth.signOut(); router.reload(); mutate("/api/boards/")}}>
-            <Image src={"/sign-out-alt-solid.svg"} alt='sign out' height={18} width={16}></Image>
-            {/* <H3>Sign Out</H3> */}
-          </StyledSignOut>
-            :
-            null       
+        // session?.user ?
+        //   <StyledSignOut onClick={async ()=>{await supabase.auth.signOut(); router.reload(); mutate("/api/boards/")}}>
+        //     <Image src={"/sign-out-alt-solid.svg"} alt='sign out' height={18} width={16}></Image>
+        //     {/* <H3>Sign Out</H3> */}
+        //   </StyledSignOut>
+        //     :
+        //     null       
         }
   </StyledLogoBar>
   )
