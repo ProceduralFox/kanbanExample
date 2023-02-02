@@ -19,11 +19,12 @@ export default async function handler(
 
     const body: z.infer<typeof boardAddSchema> = req.body
 
-    const user = await supabase.auth.getUser()
+    const { data: { user}} = await supabase.auth.getUser()
+    
   
     let { data: boardData, error:boardError } = await supabase
     .from('boards')
-    .insert({name: body.name, owner: user.data.user?.id, id: body.id})
+    .insert({name: body.name, owner: user?user.id:null, id: body.id, isPublic: user ? false : true})
     .select()
 
     if(boardError) return res.status(400).json({message: boardError, operation: "board insert"})

@@ -7,6 +7,9 @@ export const StyledLogoBar = styled.div<{darkMode: boolean}>`
   min-width: 200px;
   /* flex-grow: 1; */
 
+  cursor: pointer;
+  position: relative;
+
   display: flex;
   padding: 34px;
 

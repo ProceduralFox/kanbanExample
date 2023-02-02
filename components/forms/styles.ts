@@ -6,6 +6,7 @@ export const StyledFormWrapper = styled.div<{darkMode:boolean, setWidth?: string
   padding: 32px;
   border-radius: 6px;
 
+  width: 350px;
   max-width: 80vw;
   max-height: 80vh;
 

@@ -10,7 +10,7 @@ type Props = {
 
 
 const Modal = (props: Props) => {
-  const { hidden, setHidden } = props
+  const { hidden, setHidden, children } = props
   
   
 
@@ -22,7 +22,7 @@ const Modal = (props: Props) => {
         setHidden(true)
       }}>
       <StyledModalCenter>
-        {props.children}
+        {children}
       </StyledModalCenter>
     </StyledModalBackground>
   )

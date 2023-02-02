@@ -1,4 +1,4 @@
-import { useSession } from '@supabase/auth-helpers-react'
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import React, { useContext, useState } from 'react'
 
 import { fetcher } from '../../swr/config'
@@ -22,7 +22,7 @@ type Props = {
 const Sidebar = (props: Props) => {
   const { darkMode } = useContext(DarkModeContext)
   const router = useRouter()
-
+  const session = useSession()
 
   const [hidden, setHidden] = useState(false)
   const [modalHidden, setModalHidden] = useState(true);
@@ -51,6 +51,7 @@ const Sidebar = (props: Props) => {
             <Image src={"/hide_icon.svg"} alt='crossed over eye' height={18} width={16}></Image>
             <H3 darkMode={darkMode}>Hide Sidebar</H3>
           </StyledSidebarHideButton>
+
         </div>
       </StyledSidebar>
     </>

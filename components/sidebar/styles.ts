@@ -167,3 +167,11 @@ export const StyledSidebarHideButton = styled.button`
   }
 
 `
+
+export const StyledSignOut = styled(StyledSidebarHideButton)`
+  position: absolute;
+  width: 30px;
+
+  bottom: 0;
+  right: 0;
+`

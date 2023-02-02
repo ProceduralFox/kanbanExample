@@ -46,6 +46,7 @@ const TaskDetail = (props: Props) => {
         // moveTask(task.id, e.target.value)
       }
       <StyledFormSection>
+        <PL>Status</PL>
         <StyledSelect darkMode={darkMode} value={selectedColumn} onChange={(e)=>{
           setSelectedColumn(e.target.value); 
           moveTask(task.id, e.target.value, { type: "mutate", mutateUrl: `/api/boards/${task.board_id}/`}) 
