@@ -27,8 +27,6 @@ type Props = {
 
 
 const Home = (props: Props) => {
-  const session = useSession()
-  const supabase = useSupabaseClient()
 
   const size = useWindowSize()
   
@@ -64,7 +62,7 @@ const Home = (props: Props) => {
     <div style={{display: "flex", height: "90%", width: "100%", background: darkMode?DARK_GREY_2:WHITE}}>
       <StyledHomepage darkMode={darkMode}>
         <ProgressLoading isLoading={isPageLoading}>
-          <AuthWrapper showLogin={!session?true:false}>
+          <AuthWrapper>
             <>
               <BoardsList initialBoards={serverBoards} ></BoardsList>
               <ThemeButton></ThemeButton>
@@ -87,7 +85,7 @@ const Home = (props: Props) => {
         <Sidebar initialBoards={props.serverBoards}></Sidebar>
         <StyledHomepage darkMode={darkMode}>
           <ProgressLoading isLoading={props.isPageLoading}>
-            <AuthWrapper showLogin={!session?true:false}>
+            <AuthWrapper>
               { 
                   serverBoards.length === 0 ?
                   <>
@@ -111,6 +109,7 @@ export async function getServerSideProps( context:any ) {
 
   // const res = await fetch(`http://localhost:3001/api/boards`)
   const supabase = createServerSupabaseClient<Database>({ req, res })
+  // console.log("SSR keeps cookie?")
   
   let { data: boards, error } = await supabase
   .from('boards')

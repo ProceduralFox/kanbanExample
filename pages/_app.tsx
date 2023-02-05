@@ -21,7 +21,7 @@ function MyApp({
   initialSession: Session,
 }>) {
   const [supabase] = useState(() => createBrowserSupabaseClient())
-  const session = useSession()
+  // const session = useSession()
 
   const [darkMode, setDarkMode] = useState(true)
 
@@ -53,15 +53,15 @@ function MyApp({
       <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
       <link rel="icon" type="image/png" href="/favicon.png"/>
     </Head>
-    <SessionContextProvider supabaseClient={supabase} initialSession={pageProps.initialSession}>
-      {/* <Layout> */}
       <DarkModeContext.Provider value={{darkMode, setDarkMode}} >
         <StyledLayout darkMode={darkMode} className={jakarta.className}>
+    <SessionContextProvider supabaseClient={supabase} initialSession={pageProps.initialSession}>
+      {/* <Layout> */}
           <Component {...pageProps} isPageLoading={isPageLoading} />
-        </StyledLayout>
-      </DarkModeContext.Provider>
       {/* </Layout> */}
     </SessionContextProvider>
+        </StyledLayout>
+      </DarkModeContext.Provider>
     </>
   )
 }

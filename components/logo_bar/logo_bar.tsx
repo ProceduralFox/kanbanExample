@@ -8,6 +8,7 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { StyledSignOut } from '../sidebar/styles'
 import { mutate } from 'swr'
 
+
 type Props = {}
 
 const LogoBar = (props: Props) => {
@@ -23,7 +24,7 @@ const LogoBar = (props: Props) => {
       <H1 darkMode={darkMode}>kanban</H1>
       {
         // session?.user ?
-        //   <StyledSignOut onClick={async ()=>{await supabase.auth.signOut(); router.reload(); mutate("/api/boards/")}}>
+        //   <StyledSignOut onClick={async ()=>{await supabase.auth.signOut()}}>
         //     <Image src={"/sign-out-alt-solid.svg"} alt='sign out' height={18} width={16}></Image>
         //     {/* <H3>Sign Out</H3> */}
         //   </StyledSignOut>

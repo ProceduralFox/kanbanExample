@@ -6,24 +6,24 @@ import { DarkModeContext } from '../../context/darkmode_context'
 import { mutate } from 'swr'
 
 type Props = {
-  showLogin: boolean
   children: JSX.Element
 }
 
 
 const AuthWrapper = (props: Props) => {
-  const { showLogin, children } = props
+  const { children } = props
   const supabase = useSupabaseClient()
   const session = useSession()
 
+
   const { darkMode } = useContext(DarkModeContext)
 
-  useEffect(()=>{
-    mutate("/api/boards/")
-  }, [session])
+  // useEffect(()=>{
+  //   mutate("/api/boards/")
+  // }, [session])
   
 
-  if(showLogin) {
+  if(!session) {
     return (
       <>
       <H1 darkMode={darkMode}>Anyone can create or interact with the public boards on the left. To create a private one please sign in.</H1>

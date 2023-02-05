@@ -22,6 +22,10 @@ export const StyledBoard = styled.div<{darkMode: boolean}>`
   align-items: start;
 
   overflow: auto;
+
+  @media (min-width: 1200px) {
+    width: calc(100% - 300px);
+  }
 `
 
 export const StyledBoardColumn = styled.li`
